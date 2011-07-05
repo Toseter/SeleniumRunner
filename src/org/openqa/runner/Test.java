@@ -26,6 +26,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Test {
 
+    protected TestState state;
+
     /**
      * @HACK JUnit uses different thread, so this hack prevents ConcurrentModificationException
      * What can I do with this?
@@ -34,6 +36,7 @@ public class Test {
 
     public Test() {
         super();
+        state = new TestState();
     }
 
     public Map<String, Map<String, String>> nextCommand() {
@@ -48,4 +51,7 @@ public class Test {
         _commands.add(c);
     }
 
+    public TestState getState() {
+        return state;
+    }
 }
