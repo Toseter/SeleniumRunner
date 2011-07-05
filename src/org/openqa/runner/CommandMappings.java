@@ -17,13 +17,21 @@ package org.openqa.runner;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.FindsById;
+import org.openqa.selenium.internal.FindsByXPath;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.support.ByIdOrName;
+import org.openqa.selenium.support.ByDOM;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,130 +43,49 @@ public class CommandMappings {
 
     private static Map<String, String> _paramMapping;
 
-    public static Response execute(RemoteWebDriver remoteWebDriver, String commandText, Map<String, String> params) throws NoSuchMethodException {
-        Method method = CommandMappings.class.getMethod(commandText, new Class[]{RemoteWebDriver.class, Map.class});
-        Response response = null;
+    public static final int XPATH      = 0;
+    public static final int ID         = 1;
+    public static final int LINK_TEXT  = 2;
+    public static final int CSS        = 3;
+    public static final int NAME       = 4;
+    public static final int DOM        = 5;
+    public static final int IDENTIFIER = 6;
+    public static final int NONE       = 999;
+
+    public static void execute(RemoteWebDriver remoteWebDriver,TestState state, String commandText, Map<String, String> params) throws NoSuchMethodException {
+        Method method = Commands.class.getMethod(commandText, new Class[]{RemoteWebDriver.class,TestState.class, Map.class});
 
         try {
-            response = (Response) method.invoke(null, new Object[]{remoteWebDriver, params});
+            method.invoke(null, new Object[]{remoteWebDriver,state, params});
         } catch (Exception ex) {
             Logger.getLogger(CommandMappings.class).error("Error when invoke method", ex);
         }
-
-        return response;
     }
 
-    public static Response open(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        try {
-            return remoteWebDriver.getCommandExecutor().execute(new Command(remoteWebDriver.getSessionId(), DriverCommand.GET, params));
-        } catch (Exception ex) {
-            Logger.getLogger(CommandMappings.class).error("Error in open", ex);
+    public static By detectTargetMethod(String target){
+        if ((target.startsWith("//")) || (target.startsWith("xpath")))
+            By.xpath(target);
+
+        if (target.startsWith("link"))
+            By.linkText(target);
+
+        if (target.startsWith("css"))
+            By.cssSelector(target);
+
+        if (target.startsWith("name"))
+            By.name(target);
+
+        if ((target.startsWith("dom")) || (target.startsWith("document.")))
+        {
+            return new ByDOM(target);
         }
 
-        return null;
+        return new ByIdOrName(target);
     }
 
-    /* Assert methods */
 
-    public static Response assertText(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
 
-    public static Response assertTextPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
 
-    public static Response assertTitle(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response assertValue(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response assertTable(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response assertElementPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    /* Verify Methods */
-
-    public static Response verifyText(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response verifyTextPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response verifyTitle(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response verifyValue(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response verifyTable(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response verifyElementPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    /* WaitFor Methods  */
-    public static Response waitForText(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response waitForTextPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response waitForTitle(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response waitForValue(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response waitForTable(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response waitForElementPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    /* Store Methods  */
-    public static Response storeText(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response storeTextPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response storeTitle(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response storeValue(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response storeTable(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
-
-    public static Response storeElementPresent(RemoteWebDriver remoteWebDriver, Map<String, String> params) {
-        throw new NotImplementedException();
-    }
 
     public static Map<String, String> getParamMapping() {
 
@@ -195,6 +122,5 @@ public class CommandMappings {
 
         return _paramMapping;
     }
-
 
 }
