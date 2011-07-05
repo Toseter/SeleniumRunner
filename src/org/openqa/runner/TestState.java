@@ -15,6 +15,7 @@
 
 package org.openqa.runner;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -25,6 +26,17 @@ import java.net.URL;
 public class TestState {
 
     private URL baseUrl;
+
+    public TestState()
+    {
+        try{
+            baseUrl = new URL("http://localhost");
+        }
+        catch (MalformedURLException ex)
+        {
+            throw new RuntimeException("Error in code",ex);
+        }
+    }
 
     public URL getBaseUrl() {
         return baseUrl;
