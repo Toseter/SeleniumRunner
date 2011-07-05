@@ -15,10 +15,22 @@
 
 package org.openqa.runner;
 
+import java.net.URL;
+
 /**
  * Created by IntelliJ IDEA.
  * User: lex
  * Date: 30.06.11
  */
 public class TestState {
+
+    private URL baseUrl;
+
+    public URL getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(URL baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 }
