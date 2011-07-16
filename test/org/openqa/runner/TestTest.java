@@ -15,14 +15,14 @@
 
 package org.openqa.runner;
 
-import com.google.common.collect.ImmutableMap;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.remote.Command;
-import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.SessionId;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -39,13 +39,17 @@ public class TestTest {
 
     private org.openqa.runner.Test test;
     private SessionId sessionId = new SessionId("");
-    private Command exCommand = new Command(sessionId, DriverCommand.GET, ImmutableMap.of("url", "http://yandex.ru"));
+    private Map<String, Map<String, String>> exCommand;
 
     @Before
     public void setUp() {
         test = new org.openqa.runner.Test();
-//        test.addCommand(exCommand);
-//        test.addCommand(new Command(sessionId,DriverCommand.GET, ImmutableMap.of("url", "http://google.com")));
+        exCommand = new HashMap<String, Map<String, String>>();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("url", "/");
+        exCommand.put("open", params);
+        test.addCommand(exCommand);
+        test.addCommand(exCommand);
     }
 
     @After
