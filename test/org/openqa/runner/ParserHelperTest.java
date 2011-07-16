@@ -72,6 +72,8 @@ public class ParserHelperTest {
     @Test
     public void testParseTestSuite() throws Exception {
         TestSuite testSuite = ParserHelper.parseTestSuite("testData" + File.separator + "testSuite.ts");
+        org.openqa.runner.Test[] tests = testSuite.getTests();
+        assertEquals(2, tests.length);
     }
 
 

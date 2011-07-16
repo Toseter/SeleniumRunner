@@ -19,12 +19,22 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.ArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: lex
  * Date: 05.07.11
  */
 public class TestSuiteHandler extends DefaultHandler {
+
+    private int start;
+    private String uri = "";
+    private ArrayList<String> tests = new ArrayList<String>();
+
+    public String[] getTests() {
+        return tests.toArray(new String[tests.size()]);
+    }
 
     @Override
     public void startDocument() {
@@ -33,16 +43,32 @@ public class TestSuiteHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        if ("tbody".equals(qName))
+            start = -1;
+
+        if ("tr".equals(qName)) {
+            start++;
+            this.uri = "";
+
+        }
+
+        if (("a".equals(qName)) && (start >= 0)) {
+            this.uri = attributes.getValue("href");
+        }
 
     }
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+
+        if (("tr".equals(qName)) && (start > 0)) {
+            tests.add(this.uri);
+        }
+
 
     }
 

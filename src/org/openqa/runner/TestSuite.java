@@ -25,7 +25,7 @@ public class TestSuite {
 
     private Test[] _tests;
 
-    public TestSuite(String path) {
+    public TestSuite() {
 
     }
 
