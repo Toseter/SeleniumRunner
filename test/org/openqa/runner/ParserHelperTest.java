@@ -23,7 +23,9 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class ParserHelperTest {
@@ -61,9 +63,10 @@ public class ParserHelperTest {
     public void testParseTest() throws Exception {
         org.openqa.runner.Test test = ParserHelper.parseTest("testData" + File.separator + "firstTest.t");
         assertTrue(test.hasNextCommand());
-//        Command command = test.nextCommand();
-//        assertEquals("open",command.getName());
-//        assertEquals("/",command.getParameters().get(""));
+        Map<String, Map<String, String>> command = test.nextCommand();
+        assertEquals("open", command.keySet().toArray()[0]);
+        Map<String, String> params = command.get("open");
+        assertEquals("/", params.get("url"));
     }
 
     @Test

@@ -15,11 +15,13 @@
 
 package org.openqa.runner.parserHandlers;
 
+import com.google.common.collect.ImmutableMap;
+import org.openqa.runner.CommandMappings;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -32,21 +34,36 @@ public class TestHandler extends DefaultHandler {
     private boolean isTitle;
     private int command = -2;
 
-    private String commandText;
-    private String paramText;
-    private String targetText;
+    private String commandText = "";
+    private String paramText = "";
+    private String targetText = "";
 
     private String title = "";
-    private Map<String, Map<String, ?>> commands;
+
+    private Map<String, String> map;
+
+    private LinkedList<Map<String, Map<String, String>>> commands;
+    private String baseUrl;
+
+    public Object[] getCommands() {
+        return commands.toArray();
+    }
 
     @Override
     public void startDocument() throws SAXException {
-        commands = new HashMap<String, Map<String, ?>>();
+        commands = new LinkedList<Map<String, Map<String, String>>>();
+        map = CommandMappings.getParamMapping();
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         isTitle = "title".equals(qName);
+
+        if ("link".equals(qName)) {
+            if (attributes.getValue("rel").equals("selenium.base")) {
+                baseUrl = attributes.getValue("href");
+            }
+        }
 
         if ("tbody".equals(qName))
             command = 0;
@@ -58,7 +75,7 @@ public class TestHandler extends DefaultHandler {
             targetText = "";
         }
 
-        if (("td".equals(qName)) && (command == -1))
+        if (("td".equals(qName)) && (command != -2))
             command++;
     }
 
@@ -92,7 +109,37 @@ public class TestHandler extends DefaultHandler {
 
 
         if (("tr".equals(qName)) && (command != -2)) {
+            commandText = commandText.trim();
+            paramText = paramText.trim();
+            targetText = targetText.trim();
+            String params = (String) map.get(commandText);
 
+            /*
+                @TODO custom exception for non existing command or wrong format
+             */
+            if (params == null)
+                return;
+
+            Map<String, Map<String, String>> commandObj;
+            if (params.contains(":")) {
+                String[] p = params.split(":");
+                commandObj = new ImmutableMap.Builder<String, Map<String, String>>().
+                        put(commandText,
+                                new ImmutableMap.Builder<String, String>().
+                                        put(p[0], targetText).
+                                        put(p[1], paramText).
+                                        build()).
+                        build();
+            } else {
+                commandObj = new ImmutableMap.Builder<String, Map<String, String>>().
+                        put(commandText,
+                                new ImmutableMap.Builder<String, String>().
+                                        put(params, targetText).
+                                        build()).
+                        build();
+            }
+
+            commands.add(commandObj);
         }
     }
 
@@ -101,4 +148,7 @@ public class TestHandler extends DefaultHandler {
     }
 
 
+    public String getBaseUrl() {
+        return baseUrl;
+    }
 }
