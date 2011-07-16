@@ -15,10 +15,40 @@
 
 package org.openqa.runner;
 
+<<<<<<< HEAD
+=======
+import java.net.MalformedURLException;
+import java.net.URL;
+
+>>>>>>> develop
 /**
  * Created by IntelliJ IDEA.
  * User: lex
  * Date: 30.06.11
  */
 public class TestState {
+<<<<<<< HEAD
+=======
+
+    private URL baseUrl;
+
+    public TestState()
+    {
+        try{
+            baseUrl = new URL("http://localhost");
+        }
+        catch (MalformedURLException ex)
+        {
+            throw new RuntimeException("Error in code",ex);
+        }
+    }
+
+    public URL getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(URL baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+>>>>>>> develop
 }

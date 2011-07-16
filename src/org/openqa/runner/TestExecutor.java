@@ -45,8 +45,9 @@ public class TestExecutor extends RemoteWebDriver {
             while (test.hasNextCommand()) {
                 Map<String, Map<String, String>> command = test.nextCommand();
                 String commandText = (String) command.keySet().toArray()[0];
+                TestState state = test.getState();
                 try {
-                    CommandMappings.execute(this,new TestState(), commandText, command.get(commandText));
+                    CommandMappings.execute(this,state,commandText, command.get(commandText));
                 } catch (NoSuchMethodException ex) {
                     Logger.getLogger(TestExecutor.class).error("Fail execute command :" + commandText, ex);
                 }

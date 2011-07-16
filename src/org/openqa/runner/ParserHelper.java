@@ -16,11 +16,20 @@
 package org.openqa.runner;
 
 
+import org.apache.log4j.Logger;
+import org.openqa.runner.parserHandlers.TestHandler;
+import org.openqa.runner.parserHandlers.TestSuiteHandler;
 import org.xml.sax.SAXException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,6 +39,8 @@ import java.io.*;
  */
 public class ParserHelper {
 
+    private static SAXParserFactory spf;
+
     /**
      * Parse Test from file
      *
@@ -38,6 +49,66 @@ public class ParserHelper {
      */
     public static Test parseTest(String path) throws IOException, SAXException {
 
+        File testFile = checkFile(path);
+
+        TestHandler handler = new TestHandler();
+
+        if (spf == null)
+            spf = SAXParserFactory.newInstance();
+
+        Test result = new Test();
+
+        try {
+            SAXParser saxParser = spf.newSAXParser();
+            saxParser.parse(testFile, handler);
+            Object[] commands = handler.getCommands();
+            result.getState().setBaseUrl(new URL(handler.getBaseUrl()));
+            for (int i = 0; i < commands.length; i++)
+                result.addCommand((Map<String, Map<String, String>>) commands[i]);
+        } catch (ParserConfigurationException t) {
+            Logger.getLogger(ParserHelper.class).error("Error in parsingTest", t);
+        }
+
+        return result;
+    }
+
+    public static TestSuite parseTestSuite(String path) throws IOException, SAXException {
+
+        File testSuiteFile = checkFile(path);
+
+        TestSuiteHandler handler = new TestSuiteHandler();
+
+        if (spf == null)
+            spf = SAXParserFactory.newInstance();
+
+        TestSuite result = null;
+
+        try {
+            SAXParser saxParser = spf.newSAXParser();
+            saxParser.parse(testSuiteFile, handler);
+            String[] commands = handler.getTests();
+            Test[] tests = new Test[commands.length];
+            for (int i = 0; i < commands.length; i++)
+                tests[i] = parseTest(testSuiteFile.getParent() + File.separator + commands[i]);
+
+            result = new TestSuite(tests);
+
+        } catch (ParserConfigurationException t) {
+            Logger.getLogger(ParserHelper.class).error("Error in parseTestSuite", t);
+        }
+
+        return result;
+    }
+
+    public static TestData parseData() {
+        throw new NotImplementedException();
+    }
+
+    public static Fixture parseFixture() {
+        throw new NotImplementedException();
+    }
+
+    private static File checkFile(String path) throws IOException {
         File testFile = new File(path);
 
         if (!testFile.exists()) {
@@ -47,37 +118,7 @@ public class ParserHelper {
         if (!testFile.canRead()) {
             throw new IOException("Can't read file " + path);
         }
-
-
-        InputStream is = new FileInputStream(path);
-
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        spf.setNamespaceAware(true);
-
-
-//        try
-//        {
-//
-//        }
-//        catch (ParserConfigurationException ex)
-//        {
-//            Logger.getLogger("org.openqa.runner.ParserHelper").error("Error in configuration",ex);
-//        }
-
-
-        throw new NotImplementedException();
-    }
-
-    public static TestSuite parseTestSuite(String path) {
-        throw new NotImplementedException();
-    }
-
-    public static TestData parseData() {
-        throw new NotImplementedException();
-    }
-
-    public static Fixture parseFixture() {
-        throw new NotImplementedException();
+        return testFile;
     }
 
 }
