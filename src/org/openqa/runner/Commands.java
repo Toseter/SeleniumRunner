@@ -119,7 +119,8 @@ public class Commands {
 
     /* Store Methods  */
     public static void storeText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
+        state.setVariable(params.get("text"), value);
     }
 
     public static void storeTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
@@ -127,11 +128,12 @@ public class Commands {
     }
 
     public static void storeTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        state.setVariable(params.get("title"), remoteWebDriver.getTitle());
     }
 
     public static void storeValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
+        state.setVariable(params.get("value"), value);
     }
 
     public static void storeTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
