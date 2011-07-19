@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -58,6 +59,19 @@ public class State {
 
     public void setBaseUrl(URL baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    public Map<String, String> processParams(Map<String, String> params) {
+        Set<String> keys = params.keySet();
+        for (String key : keys) {
+            String value = params.get(key);
+            if (value.matches("\\$\\{\\w*\\}")) {
+                value = value.replace("${", "").replace("}", "");
+                params.put(key, this.getVariable(value));
+            }
+        }
+
+        return params;
     }
 
 }

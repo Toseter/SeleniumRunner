@@ -20,6 +20,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -37,6 +40,7 @@ public class StateTest {
     @Before
     public void setUp() {
         state = new State();
+        state.setVariable("else", "something");
     }
 
     @After
@@ -48,5 +52,15 @@ public class StateTest {
         assertEquals(null, state.getVariable("something"));
         state.setVariable("something", "else");
         assertEquals("else", state.getVariable("something"));
+    }
+
+    @Test
+    public void testProcessCommands() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("url", "${something}");
+        params.put("target", "${else}");
+        params = state.processParams(params);
+        assertEquals(null, params.get("url"));
+        assertEquals("something", params.get("target"));
     }
 }
