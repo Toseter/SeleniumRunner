@@ -13,13 +13,36 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner;
+package org.openqa.runner.tests;
+
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.
  * User: lex
- * Date: 09.06.11
- * To change this template use File | Settings | File Templates.
+ * Date: 30.06.11
  */
-public class TestData {
+public class State {
+
+
+    private URL baseUrl;
+
+    public State() {
+        try {
+            baseUrl = new URL("http://localhost");
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException("Error in code", ex);
+        }
+    }
+
+    public URL getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(URL baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
 }

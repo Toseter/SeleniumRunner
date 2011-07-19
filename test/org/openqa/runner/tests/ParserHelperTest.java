@@ -13,11 +13,12 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner;
+package org.openqa.runner.tests;
 
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.runner.ParserHelper;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -61,7 +62,7 @@ public class ParserHelperTest {
 
     @Test
     public void testParseTest() throws Exception {
-        org.openqa.runner.Test test = ParserHelper.parseTest("testData" + File.separator + "firstTest.t");
+        org.openqa.runner.tests.Test test = ParserHelper.parseTest("testData" + File.separator + "firstTest.t");
         assertTrue(test.hasNextCommand());
         Map<String, Map<String, String>> command = test.nextCommand();
         assertEquals("open", command.keySet().toArray()[0]);
@@ -71,8 +72,8 @@ public class ParserHelperTest {
 
     @Test
     public void testParseTestSuite() throws Exception {
-        TestSuite testSuite = ParserHelper.parseTestSuite("testData" + File.separator + "testSuite.ts");
-        org.openqa.runner.Test[] tests = testSuite.getTests();
+        Suite testSuite = ParserHelper.parseTestSuite("testData" + File.separator + "testSuite.ts");
+        org.openqa.runner.tests.Test[] tests = testSuite.getTests();
         assertEquals(2, tests.length);
     }
 

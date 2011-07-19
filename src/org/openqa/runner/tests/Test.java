@@ -13,7 +13,7 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner;
+package org.openqa.runner.tests;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Test {
 
-    protected TestState state;
+    protected State state;
 
     /**
      * @HACK JUnit uses different thread, so this hack prevents ConcurrentModificationException
@@ -36,7 +36,7 @@ public class Test {
 
     public Test() {
         super();
-        state = new TestState();
+        state = new State();
     }
 
     public Map<String, Map<String, String>> nextCommand() {
@@ -51,7 +51,7 @@ public class Test {
         _commands.add(c);
     }
 
-    public TestState getState() {
+    public State getState() {
         return state;
     }
 }

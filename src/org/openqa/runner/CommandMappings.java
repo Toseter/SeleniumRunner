@@ -17,21 +17,13 @@ package org.openqa.runner;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.log4j.Logger;
+import org.openqa.runner.tests.State;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByXPath;
-import org.openqa.selenium.remote.Command;
-import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.ByDOM;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.openqa.selenium.support.ByIdOrName;
 
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,26 +35,26 @@ public class CommandMappings {
 
     private static Map<String, String> _paramMapping;
 
-    public static final int XPATH      = 0;
-    public static final int ID         = 1;
-    public static final int LINK_TEXT  = 2;
-    public static final int CSS        = 3;
-    public static final int NAME       = 4;
-    public static final int DOM        = 5;
+    public static final int XPATH = 0;
+    public static final int ID = 1;
+    public static final int LINK_TEXT = 2;
+    public static final int CSS = 3;
+    public static final int NAME = 4;
+    public static final int DOM = 5;
     public static final int IDENTIFIER = 6;
-    public static final int NONE       = 999;
+    public static final int NONE = 999;
 
-    public static void execute(RemoteWebDriver remoteWebDriver,TestState state, String commandText, Map<String, String> params) throws NoSuchMethodException {
-        Method method = Commands.class.getMethod(commandText, new Class[]{RemoteWebDriver.class,TestState.class, Map.class});
+    public static void execute(RemoteWebDriver remoteWebDriver, State state, String commandText, Map<String, String> params) throws NoSuchMethodException {
+        Method method = Commands.class.getMethod(commandText, new Class[]{RemoteWebDriver.class, State.class, Map.class});
 
         try {
-            method.invoke(null, new Object[]{remoteWebDriver,state, params});
+            method.invoke(null, new Object[]{remoteWebDriver, state, params});
         } catch (Exception ex) {
             Logger.getLogger(CommandMappings.class).error("Error when invoke method", ex);
         }
     }
 
-    public static By detectTargetMethod(String target){
+    public static By detectTargetMethod(String target) {
         if ((target.startsWith("//")) || (target.startsWith("xpath")))
             By.xpath(target);
 
@@ -75,16 +67,12 @@ public class CommandMappings {
         if (target.startsWith("name"))
             By.name(target);
 
-        if ((target.startsWith("dom")) || (target.startsWith("document.")))
-        {
+        if ((target.startsWith("dom")) || (target.startsWith("document."))) {
             return new ByDOM(target);
         }
 
         return new ByIdOrName(target);
     }
-
-
-
 
 
     public static Map<String, String> getParamMapping() {

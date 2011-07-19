@@ -13,7 +13,7 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner;
+package org.openqa.runner.tests;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,5 +21,5 @@ package org.openqa.runner;
  * Date: 09.06.11
  * To change this template use File | Settings | File Templates.
  */
-public class TestSuiteResult {
+public class SuiteResult {
 }

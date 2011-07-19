@@ -13,7 +13,7 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner;
+package org.openqa.runner.tests;
 
 import junit.framework.JUnit4TestAdapter;
 import org.junit.After;
@@ -37,13 +37,13 @@ public class TestTest {
         return new JUnit4TestAdapter(TestTest.class);
     }
 
-    private org.openqa.runner.Test test;
+    private org.openqa.runner.tests.Test test;
     private SessionId sessionId = new SessionId("");
     private Map<String, Map<String, String>> exCommand;
 
     @Before
     public void setUp() {
-        test = new org.openqa.runner.Test();
+        test = new org.openqa.runner.tests.Test();
         exCommand = new HashMap<String, Map<String, String>>();
         Map<String, String> params = new HashMap<String, String>();
         params.put("url", "/");

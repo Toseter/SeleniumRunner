@@ -19,6 +19,10 @@ package org.openqa.runner;
 import org.apache.log4j.Logger;
 import org.openqa.runner.parserHandlers.TestHandler;
 import org.openqa.runner.parserHandlers.TestSuiteHandler;
+import org.openqa.runner.tests.Data;
+import org.openqa.runner.tests.Fixture;
+import org.openqa.runner.tests.Suite;
+import org.openqa.runner.tests.Test;
 import org.xml.sax.SAXException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -72,7 +76,7 @@ public class ParserHelper {
         return result;
     }
 
-    public static TestSuite parseTestSuite(String path) throws IOException, SAXException {
+    public static Suite parseTestSuite(String path) throws IOException, SAXException {
 
         File testSuiteFile = checkFile(path);
 
@@ -81,7 +85,7 @@ public class ParserHelper {
         if (spf == null)
             spf = SAXParserFactory.newInstance();
 
-        TestSuite result = null;
+        Suite result = null;
 
         try {
             SAXParser saxParser = spf.newSAXParser();
@@ -91,7 +95,7 @@ public class ParserHelper {
             for (int i = 0; i < commands.length; i++)
                 tests[i] = parseTest(testSuiteFile.getParent() + File.separator + commands[i]);
 
-            result = new TestSuite(tests);
+            result = new Suite(tests);
 
         } catch (ParserConfigurationException t) {
             Logger.getLogger(ParserHelper.class).error("Error in parseTestSuite", t);
@@ -100,7 +104,7 @@ public class ParserHelper {
         return result;
     }
 
-    public static TestData parseData() {
+    public static Data parseData() {
         throw new NotImplementedException();
     }
 

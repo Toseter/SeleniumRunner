@@ -13,7 +13,7 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner;
+package org.openqa.runner.tests;
 
 import junit.framework.JUnit4TestAdapter;
 import org.junit.After;
@@ -36,13 +36,13 @@ public class TestExecutorTest {
         return new JUnit4TestAdapter(TestExecutorTest.class);
     }
 
-    private TestExecutor _testExecutor;
+    private Executor _testExecutor;
 
     @Before
     public void setUp() {
         Capabilities desiredCapabilities = DesiredCapabilities.firefox();
         try {
-            _testExecutor = new TestExecutor(new URL("http://localhost:4444/wd/hub"), desiredCapabilities);
+            _testExecutor = new Executor(new URL("http://localhost:4444/wd/hub"), desiredCapabilities);
         } catch (Exception ex) {
             System.err.print("Some error");
         }
@@ -54,9 +54,9 @@ public class TestExecutorTest {
 
     @Test
     public void testTestSuiteExecuting() {
-        org.openqa.runner.Test[] tests = new org.openqa.runner.Test[3];
+        org.openqa.runner.tests.Test[] tests = new org.openqa.runner.tests.Test[3];
         for (int i = 0; i < tests.length; i++) {
-            tests[i] = new org.openqa.runner.Test();
+            tests[i] = new org.openqa.runner.tests.Test();
 
             Map<String, String> params = new HashMap<String, String>();
             params.put("url", "http://google.com");
@@ -74,9 +74,9 @@ public class TestExecutorTest {
 
         }
 
-        TestSuite testSuite = new TestSuite(tests);
+        Suite testSuite = new Suite(tests);
 
-        TestSuiteResult testResult = _testExecutor.execute(testSuite);
+        SuiteResult testResult = _testExecutor.execute(testSuite);
 
     }
 }
