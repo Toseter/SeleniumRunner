@@ -18,6 +18,8 @@ package org.openqa.runner.tests;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,12 +31,25 @@ public class State {
 
     private URL baseUrl;
 
+
+    private Map<String, String> variables;
+
     public State() {
         try {
             baseUrl = new URL("http://localhost");
         } catch (MalformedURLException ex) {
             throw new RuntimeException("Error in code", ex);
         }
+
+        variables = new HashMap<String, String>();
+    }
+
+    public void setVariable(String name, String value) {
+        variables.put(name, value);
+    }
+
+    public String getVariable(String name) {
+        return variables.get(name);
     }
 
     public URL getBaseUrl() {
