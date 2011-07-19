@@ -22,7 +22,6 @@ import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,11 +43,11 @@ public class Executor extends RemoteWebDriver {
 
         for (Test test : testSuite.getTests()) {
             while (test.hasNextCommand()) {
-                Map<String, Map<String, String>> command = test.nextCommand();
-                String commandText = (String) command.keySet().toArray()[0];
+                Command command = test.nextCommand();
+                String commandText = command.getCommandText();
                 State state = test.getState();
                 try {
-                    CommandMappings.execute(this, state, commandText, command.get(commandText));
+                    CommandMappings.execute(this, state, commandText, command.getParams());
                 } catch (NoSuchMethodException ex) {
                     Logger.getLogger(Executor.class).error("Fail execute command :" + commandText, ex);
                 }

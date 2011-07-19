@@ -64,9 +64,9 @@ public class ParserHelperTest {
     public void testParseTest() throws Exception {
         org.openqa.runner.tests.Test test = ParserHelper.parseTest("testData" + File.separator + "firstTest.t");
         assertTrue(test.hasNextCommand());
-        Map<String, Map<String, String>> command = test.nextCommand();
-        assertEquals("open", command.keySet().toArray()[0]);
-        Map<String, String> params = command.get("open");
+        Command command = test.nextCommand();
+        assertEquals("open", command.getCommandText());
+        Map<String, String> params = command.getParams();
         assertEquals("/", params.get("url"));
     }
 

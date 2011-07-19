@@ -19,10 +19,7 @@ package org.openqa.runner;
 import org.apache.log4j.Logger;
 import org.openqa.runner.parserHandlers.TestHandler;
 import org.openqa.runner.parserHandlers.TestSuiteHandler;
-import org.openqa.runner.tests.Data;
-import org.openqa.runner.tests.Fixture;
-import org.openqa.runner.tests.Suite;
-import org.openqa.runner.tests.Test;
+import org.openqa.runner.tests.*;
 import org.xml.sax.SAXException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -33,7 +30,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -65,10 +61,10 @@ public class ParserHelper {
         try {
             SAXParser saxParser = spf.newSAXParser();
             saxParser.parse(testFile, handler);
-            Object[] commands = handler.getCommands();
+            Command[] commands = handler.getCommands();
             result.getState().setBaseUrl(new URL(handler.getBaseUrl()));
             for (int i = 0; i < commands.length; i++)
-                result.addCommand((Map<String, Map<String, String>>) commands[i]);
+                result.addCommand(commands[i]);
         } catch (ParserConfigurationException t) {
             Logger.getLogger(ParserHelper.class).error("Error in parsingTest", t);
         }

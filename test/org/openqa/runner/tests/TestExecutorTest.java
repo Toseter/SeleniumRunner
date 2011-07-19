@@ -60,15 +60,13 @@ public class TestExecutorTest {
 
             Map<String, String> params = new HashMap<String, String>();
             params.put("url", "http://google.com");
-            Map<String, Map<String, String>> command = new HashMap<String, Map<String, String>>();
-            command.put("open", params);
+            Command command = new Command("open", params);
 
             tests[i].addCommand(command);
 
             params = new HashMap<String, String>();
             params.put("url", "http://yandex.ru");
-            command = new HashMap<String, Map<String, String>>();
-            command.put("open", params);
+            command = new Command("open", params);
 
             tests[i].addCommand(command);
 

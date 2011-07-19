@@ -39,15 +39,14 @@ public class TestTest {
 
     private org.openqa.runner.tests.Test test;
     private SessionId sessionId = new SessionId("");
-    private Map<String, Map<String, String>> exCommand;
+    private Command exCommand;
 
     @Before
     public void setUp() {
         test = new org.openqa.runner.tests.Test();
-        exCommand = new HashMap<String, Map<String, String>>();
         Map<String, String> params = new HashMap<String, String>();
         params.put("url", "/");
-        exCommand.put("open", params);
+        exCommand = new Command("open", params);
         test.addCommand(exCommand);
         test.addCommand(exCommand);
     }

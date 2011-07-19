@@ -15,7 +15,6 @@
 
 package org.openqa.runner.tests;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -32,14 +31,14 @@ public class Test {
      * @HACK JUnit uses different thread, so this hack prevents ConcurrentModificationException
      * What can I do with this?
      */
-    protected ConcurrentLinkedQueue<Map<String, Map<String, String>>> _commands = new ConcurrentLinkedQueue<Map<String, Map<String, String>>>();
+    protected ConcurrentLinkedQueue<Command> _commands = new ConcurrentLinkedQueue<Command>();
 
     public Test() {
         super();
         state = new State();
     }
 
-    public Map<String, Map<String, String>> nextCommand() {
+    public Command nextCommand() {
         return _commands.poll();
     }
 
@@ -47,8 +46,8 @@ public class Test {
         return !(_commands.isEmpty());
     }
 
-    public void addCommand(Map<String, Map<String, String>> c) {
-        _commands.add(c);
+    public void addCommand(Command command) {
+        _commands.add(command);
     }
 
     public State getState() {

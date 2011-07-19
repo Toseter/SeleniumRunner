@@ -17,6 +17,7 @@ package org.openqa.runner.parserHandlers;
 
 import com.google.common.collect.ImmutableMap;
 import org.openqa.runner.CommandMappings;
+import org.openqa.runner.tests.Command;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -42,16 +43,16 @@ public class TestHandler extends DefaultHandler {
 
     private Map<String, String> map;
 
-    private LinkedList<Map<String, Map<String, String>>> commands;
+    private LinkedList<Command> commands;
     private String baseUrl;
 
-    public Object[] getCommands() {
-        return commands.toArray();
+    public Command[] getCommands() {
+        return commands.toArray(new Command[commands.size()]);
     }
 
     @Override
     public void startDocument() throws SAXException {
-        commands = new LinkedList<Map<String, Map<String, String>>>();
+        commands = new LinkedList<Command>();
         map = CommandMappings.getParamMapping();
     }
 
@@ -120,26 +121,20 @@ public class TestHandler extends DefaultHandler {
             if (params == null)
                 return;
 
-            Map<String, Map<String, String>> commandObj;
+            Map<String, String> paramsMap = null;
             if (params.contains(":")) {
                 String[] p = params.split(":");
-                commandObj = new ImmutableMap.Builder<String, Map<String, String>>().
-                        put(commandText,
-                                new ImmutableMap.Builder<String, String>().
-                                        put(p[0], targetText).
-                                        put(p[1], paramText).
-                                        build()).
+                paramsMap = new ImmutableMap.Builder<String, String>().
+                        put(p[0], targetText).
+                        put(p[1], paramText).
                         build();
             } else {
-                commandObj = new ImmutableMap.Builder<String, Map<String, String>>().
-                        put(commandText,
-                                new ImmutableMap.Builder<String, String>().
-                                        put(params, targetText).
-                                        build()).
+                paramsMap = new ImmutableMap.Builder<String, String>().
+                        put(params, targetText).
                         build();
             }
 
-            commands.add(commandObj);
+            commands.add(new Command(commandText, paramsMap));
         }
     }
 
