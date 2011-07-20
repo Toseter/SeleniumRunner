@@ -50,6 +50,7 @@ public class TestExecutorTest {
 
     @After
     public void tearDown() {
+        _testExecutor.close();
     }
 
     @Test
