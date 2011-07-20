@@ -71,6 +71,11 @@ public class CommandMappings {
             return new ByDOM(target);
         }
 
+        if (target.startsWith("id=")) {
+            target = target.replace("id=", "");
+            return By.id(target);
+        }
+
         return new ByIdOrName(target);
     }
 
@@ -82,6 +87,8 @@ public class CommandMappings {
 
         _paramMapping = new ImmutableMap.Builder<String, String>().
                 put("open", "url").
+                put("click", "target").
+                put("type", "target:text").
                 put("assertText", "target:text").
                 put("assertTextPresent", "text").
                 put("assertTitle", "title").

@@ -31,6 +31,24 @@ public class State {
 
 
     private URL baseUrl;
+    private boolean isFailed = false;
+    private Command lastCommand;
+
+    public boolean isFailed() {
+        return isFailed;
+    }
+
+    public void setFailed(boolean failed) {
+        isFailed = failed;
+    }
+
+    public Command getLastCommand() {
+        return lastCommand;
+    }
+
+    public void setLastCommand(Command lastCommand) {
+        this.lastCommand = lastCommand;
+    }
 
 
     private Map<String, String> variables;

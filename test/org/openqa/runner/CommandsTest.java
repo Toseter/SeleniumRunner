@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.openqa.runner.tests.Command;
 import org.openqa.runner.tests.Executor;
 import org.openqa.runner.tests.Suite;
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -29,7 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,6 +44,7 @@ public class CommandsTest {
 
     Executor executor;
     String path;
+    String basePath;
 
     public CommandsTest() {
 
@@ -52,6 +54,7 @@ public class CommandsTest {
     public void setUp() throws MalformedURLException {
         File dataFile = new File("testData" + File.separator + "testMaterial.html");
         path = "file://" + dataFile.getAbsolutePath();
+        basePath = "file://" + (new File(dataFile.getParent())).getAbsolutePath() + "/";
         executor = new Executor(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.firefox());
         executor.get(this.path);
     }
@@ -60,6 +63,145 @@ public class CommandsTest {
     public void tearDown() {
         executor.close();
     }
+
+    @Test
+    public void testOpen() {
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("url", basePath + "testMaterial2.html");
+        test.addCommand(new Command("open", params));
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
+        executor.execute(suite);
+        assertEquals("testMaterial2", executor.getTitle());
+    }
+
+    @Test
+    public void testClick() {
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testClick");
+        test.addCommand(new Command("click", params));
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
+        executor.execute(suite);
+        assertEquals("testMaterial2", executor.getTitle());
+    }
+
+    @Test
+    public void testType() {
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testType");
+        params.put("text", "something");
+        test.addCommand(new Command("type", params));
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
+        executor.execute(suite);
+        assertEquals("something", executor.findElement(By.name("testType")).getAttribute("value"));
+    }
+
+    @Test
+    public void testAssertText() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testAssertText");
+        params.put("text", "something");
+        test.addCommand(new Command("assertText", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "testAssertText");
+        params.put("text", "else");
+        test2.addCommand(new Command("assertText", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testAssertTextPresent() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("text", "something");
+        test.addCommand(new Command("assertTextPresent", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("text", "No_this_text");
+        test2.addCommand(new Command("assertTextPresent", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testAssertValue() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testAssertValue");
+        params.put("value", "something");
+        test.addCommand(new Command("assertValue", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "testAssertValue");
+        params.put("value", "else");
+        test2.addCommand(new Command("assertValue", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testAssertTable() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "id=testAssertTable.0.0");
+        params.put("value", "something");
+        test.addCommand(new Command("assertTable", params));
+        params.put("target", "id=testAssertTable.1.0");
+        params.put("value", "else");
+        test.addCommand(new Command("assertTable", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "id=testAssertTable.0.0");
+        params.put("value", "else");
+        test2.addCommand(new Command("assertTable", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testAssertElementPresent() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testAssertElementPresent");
+        test.addCommand(new Command("assertElementPresent", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "no_element");
+        test2.addCommand(new Command("assertElementPresent", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
 
     @Test
     public void testStoreText() {

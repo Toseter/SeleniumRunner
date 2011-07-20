@@ -17,6 +17,8 @@ package org.openqa.runner;
 
 import org.apache.log4j.Logger;
 import org.openqa.runner.tests.State;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -40,30 +42,58 @@ public class Commands {
     }
 
 
+    /* Basic methods */
+    public static void click(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+        remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).click();
+    }
+
+    public static void type(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+        remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).sendKeys(params.get("text"));
+    }
+
+
     /* Assert methods */
 
     public static void assertText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String targetText = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
+        if (!targetText.equals(params.get("text")))
+            state.setFailed(true);
     }
 
     public static void assertTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String allText = remoteWebDriver.findElementByTagName("body").getText();
+        if (!allText.contains(params.get("text")))
+            state.setFailed(true);
     }
 
     public static void assertTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String title = remoteWebDriver.getTitle();
+        if (!title.equals(params.get("value")))
+            state.setFailed(true);
     }
 
     public static void assertValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
+        if (!value.equals(params.get("value")))
+            state.setFailed(true);
     }
 
     public static void assertTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String[] path = params.get("target").split("\\.");
+        WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(path[0])).
+                findElements(By.tagName("tr")).get(Integer.parseInt(path[1])).
+                findElements(By.tagName("td")).get(Integer.parseInt(path[2]));
+        String text = webElement.getText();
+        if (!text.equals(params.get("value")))
+            state.setFailed(true);
     }
 
     public static void assertElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        try {
+            WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
+        } catch (org.openqa.selenium.NoSuchElementException ex) {
+            state.setFailed(true);
+        }
     }
 
     /* Verify Methods */
