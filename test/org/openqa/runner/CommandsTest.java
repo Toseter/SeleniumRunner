@@ -115,8 +115,8 @@ public class CommandsTest {
 
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
         executor.execute(suite);
-        assertFalse(test.getState().isFailed());
-        assertTrue(test2.getState().isFailed());
+        assertFalse(test.getState().isAborted());
+        assertTrue(test2.getState().isAborted());
     }
 
     @Test
@@ -134,8 +134,8 @@ public class CommandsTest {
 
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
         executor.execute(suite);
-        assertFalse(test.getState().isFailed());
-        assertTrue(test2.getState().isFailed());
+        assertFalse(test.getState().isAborted());
+        assertTrue(test2.getState().isAborted());
     }
 
     @Test
@@ -155,8 +155,8 @@ public class CommandsTest {
 
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
         executor.execute(suite);
-        assertFalse(test.getState().isFailed());
-        assertTrue(test2.getState().isFailed());
+        assertFalse(test.getState().isAborted());
+        assertTrue(test2.getState().isAborted());
     }
 
     @Test
@@ -179,8 +179,8 @@ public class CommandsTest {
 
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
         executor.execute(suite);
-        assertFalse(test.getState().isFailed());
-        assertTrue(test2.getState().isFailed());
+        assertFalse(test.getState().isAborted());
+        assertTrue(test2.getState().isAborted());
     }
 
     @Test
@@ -198,8 +198,8 @@ public class CommandsTest {
 
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
         executor.execute(suite);
-        assertFalse(test.getState().isFailed());
-        assertTrue(test2.getState().isFailed());
+        assertFalse(test.getState().isAborted());
+        assertTrue(test2.getState().isAborted());
     }
 
 
