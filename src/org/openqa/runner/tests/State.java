@@ -31,7 +31,11 @@ public class State {
 
 
     private URL baseUrl;
+    /*
+        Don't cause test abortion, for verify
+     */
     private boolean isFailed = false;
+    private boolean isAborted = false;
     private Queue<Command> callStack;
     private int callStackSize;
     private Command lastCommand;
@@ -62,6 +66,14 @@ public class State {
 
     public Command getLastCommand() {
         return lastCommand;
+    }
+
+    public boolean isAborted() {
+        return isAborted;
+    }
+
+    public void setAborted(boolean aborted) {
+        isAborted = aborted;
     }
 
     public void setLastCommand(Command lastCommand) {
