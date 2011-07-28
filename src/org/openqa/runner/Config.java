@@ -44,6 +44,7 @@ public class Config {
         _config = new ImmutableMap.Builder<String, Object>().
                 put("rc_url", "http://localhost:4444").
                 put("browsers", "*firefox").
+                put("callStack.size", 5).
                 build();
     }
 }

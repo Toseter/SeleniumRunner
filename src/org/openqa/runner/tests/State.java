@@ -16,11 +16,11 @@
 package org.openqa.runner.tests;
 
 
+import org.openqa.runner.Config;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,22 +32,13 @@ public class State {
 
     private URL baseUrl;
     private boolean isFailed = false;
+    private Queue<Command> callStack;
+    private int callStackSize;
     private Command lastCommand;
+
 
     public boolean isFailed() {
         return isFailed;
-    }
-
-    public void setFailed(boolean failed) {
-        isFailed = failed;
-    }
-
-    public Command getLastCommand() {
-        return lastCommand;
-    }
-
-    public void setLastCommand(Command lastCommand) {
-        this.lastCommand = lastCommand;
     }
 
 
@@ -61,6 +52,32 @@ public class State {
         }
 
         variables = new HashMap<String, String>();
+        callStack = new LinkedList<Command>();
+        callStackSize = (Integer) Config.getConfig().get("callStack.size");
+    }
+
+    public void setFailed(boolean failed) {
+        isFailed = failed;
+    }
+
+    public Command getLastCommand() {
+        return lastCommand;
+    }
+
+    public void setLastCommand(Command lastCommand) {
+        if (callStack.size() == callStackSize)
+            callStack.poll();
+
+        callStack.add(lastCommand);
+        this.lastCommand = lastCommand;
+    }
+
+    /*
+     * Use this method instead of returning queue, because
+     * implementation could change
+     */
+    public Iterator<Command> getCallStackIterator() {
+        return callStack.iterator();
     }
 
     public void setVariable(String name, String value) {
