@@ -99,27 +99,45 @@ public class Commands {
     /* Verify Methods */
 
     public static void verifyText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String targetText = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
+        if (!targetText.equals(params.get("text")))
+            state.setFailed(true);
     }
 
     public static void verifyTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String allText = remoteWebDriver.findElementByTagName("body").getText();
+        if (!allText.contains(params.get("text")))
+            state.setFailed(true);
     }
 
     public static void verifyTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String title = remoteWebDriver.getTitle();
+        if (!title.equals(params.get("value")))
+            state.setFailed(true);
     }
 
     public static void verifyValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
+        if (!value.equals(params.get("value")))
+            state.setFailed(true);
     }
 
     public static void verifyTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        String[] path = params.get("target").split("\\.");
+        WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(path[0])).
+                findElements(By.tagName("tr")).get(Integer.parseInt(path[1])).
+                findElements(By.tagName("td")).get(Integer.parseInt(path[2]));
+        String text = webElement.getText();
+        if (!text.equals(params.get("value")))
+            state.setFailed(true);
     }
 
     public static void verifyElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        throw new NotImplementedException();
+        try {
+            WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
+        } catch (org.openqa.selenium.NoSuchElementException ex) {
+            state.setFailed(true);
+        }
     }
 
     /* WaitFor Methods  */

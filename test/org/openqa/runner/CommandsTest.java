@@ -202,6 +202,110 @@ public class CommandsTest {
         assertTrue(test2.getState().isAborted());
     }
 
+    @Test
+    public void testVerifyText() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testVerifyText");
+        params.put("text", "something");
+        test.addCommand(new Command("verifyText", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "testVerifyText");
+        params.put("text", "else");
+        test2.addCommand(new Command("verifyText", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testVerifyTextPresent() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("text", "something");
+        test.addCommand(new Command("verifyTextPresent", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("text", "No_this_text");
+        test2.addCommand(new Command("verifyTextPresent", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testVerifyValue() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testVerifyValue");
+        params.put("value", "something");
+        test.addCommand(new Command("verifyValue", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "testVerifyValue");
+        params.put("value", "else");
+        test2.addCommand(new Command("verifyValue", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testVerifyTable() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "id=testVerifyTable.0.0");
+        params.put("value", "something");
+        test.addCommand(new Command("verifyTable", params));
+        params.put("target", "id=testVerifyTable.1.0");
+        params.put("value", "else");
+        test.addCommand(new Command("verifyTable", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "id=testVerifyTable.0.0");
+        params.put("value", "else");
+        test2.addCommand(new Command("verifyTable", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
+    @Test
+    public void testVerifyElementPresent() {
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "testVerifyElementPresent");
+        test.addCommand(new Command("verifyElementPresent", params));
+
+        org.openqa.runner.tests.Test test2 = new org.openqa.runner.tests.Test();
+        params = new HashMap<String, String>();
+        params.put("target", "no_element");
+        test2.addCommand(new Command("verifyElementPresent", params));
+
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test, test2});
+        executor.execute(suite);
+        assertFalse(test.getState().isFailed());
+        assertTrue(test2.getState().isFailed());
+    }
+
 
     @Test
     public void testStoreText() {

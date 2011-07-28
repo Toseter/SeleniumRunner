@@ -43,16 +43,19 @@ public class Executor extends RemoteWebDriver {
         SuiteResult testSuiteResult = null;
 
         for (Test test : testSuite.getTests()) {
+            State state = test.getState();
             while (test.hasNextCommand()) {
                 Command command = test.nextCommand();
                 String commandText = command.getCommandText();
-                State state = test.getState();
                 Map<String, String> params = state.processParams(command.getParams());
                 try {
                     CommandMappings.execute(this, state, commandText, params);
                 } catch (NoSuchMethodException ex) {
                     Logger.getLogger(Executor.class).error("Fail execute command :" + commandText, ex);
                 }
+
+                if (state.isAborted())
+                    break;
             }
         }
 
