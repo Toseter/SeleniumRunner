@@ -18,12 +18,10 @@ package org.openqa.runner.tests;
 /**
  * Created by IntelliJ IDEA.
  * User: lex
- * Date: 09.06.11
- * To change this template use File | Settings | File Templates.
+ * Date: 29.07.11
  */
-public class SuiteResult {
+public interface ExecutionDoneListener {
 
-    public SuiteResult(Suite suite) {
+    public void handleExecutionDone(ExecutionDone executionDone);
 
-    }
 }

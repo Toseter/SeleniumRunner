@@ -22,6 +22,8 @@ import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,16 +33,43 @@ import java.util.Map;
  */
 public class Executor extends RemoteWebDriver {
 
+    /*
+     * Listners for parallel execution
+     */
+    private List<ExecutionDoneListener> _listeners;
+    private SuiteResult suiteResult;
+
+
     public Executor(CommandExecutor commandExecutor, Capabilities desiredCapabilities) {
         super(commandExecutor, desiredCapabilities);
+        _listeners = new LinkedList<ExecutionDoneListener>();
     }
 
     public Executor(URL url, Capabilities desiredCapabilities) {
         super(url, desiredCapabilities);
     }
 
+    public synchronized void addExecutionDoneListener(ExecutionDoneListener executionDoneListener) {
+        _listeners.add(executionDoneListener);
+    }
+
+    public synchronized void removeExecutionDoneListener(ExecutionDoneListener executionDoneListener) {
+        _listeners.remove(executionDoneListener);
+    }
+
+    private synchronized void fireExecutionDone() {
+        ExecutionDone executionDone = new ExecutionDone(this, suiteResult);
+        for (ExecutionDoneListener edl : _listeners) {
+            edl.handleExecutionDone(executionDone);
+        }
+    }
+
+
+    public SuiteResult getSuiteResult() {
+        return suiteResult;
+    }
+
     public SuiteResult execute(Suite testSuite) {
-        SuiteResult testSuiteResult = null;
 
         for (Test test : testSuite.getTests()) {
             State state = test.getState();
@@ -59,7 +88,12 @@ public class Executor extends RemoteWebDriver {
             }
         }
 
-        return testSuiteResult;
+        suiteResult = new SuiteResult(testSuite);
+        fireExecutionDone();
+
+        return suiteResult;
     }
 
+
 }
+
