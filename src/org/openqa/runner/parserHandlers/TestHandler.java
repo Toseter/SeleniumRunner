@@ -85,7 +85,7 @@ public class TestHandler extends DefaultHandler {
         String newString = new String(ch, start, length);
 
         if (isTitle)
-            title = title.concat(newString);
+            title = title.concat(newString).trim();
 
         switch (command) {
             case 0:
@@ -145,5 +145,9 @@ public class TestHandler extends DefaultHandler {
 
     public String getBaseUrl() {
         return baseUrl;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

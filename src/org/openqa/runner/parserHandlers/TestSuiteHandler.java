@@ -28,8 +28,10 @@ import java.util.ArrayList;
  */
 public class TestSuiteHandler extends DefaultHandler {
 
+    private boolean isTitle = false;
     private int start;
     private String uri = "";
+    private String title = "";
     private ArrayList<String> tests = new ArrayList<String>();
 
     public String[] getTests() {
@@ -43,6 +45,8 @@ public class TestSuiteHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        isTitle = "title".equals(qName);
+
         if ("tbody".equals(qName))
             start = -1;
 
@@ -60,6 +64,12 @@ public class TestSuiteHandler extends DefaultHandler {
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
+
+        String newString = new String(ch, start, length);
+
+        if (isTitle)
+            title = title.concat(newString).trim();
+
     }
 
     @Override
@@ -74,5 +84,9 @@ public class TestSuiteHandler extends DefaultHandler {
 
     @Override
     public void endDocument() throws SAXException {
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

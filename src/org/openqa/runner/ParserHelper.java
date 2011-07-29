@@ -62,7 +62,9 @@ public class ParserHelper {
             SAXParser saxParser = spf.newSAXParser();
             saxParser.parse(testFile, handler);
             Command[] commands = handler.getCommands();
-            result.getState().setBaseUrl(new URL(handler.getBaseUrl()));
+            State state = result.getState();
+            state.setBaseUrl(new URL(handler.getBaseUrl()));
+            state.setTestName(handler.getTitle());
             for (int i = 0; i < commands.length; i++)
                 result.addCommand(commands[i]);
         } catch (ParserConfigurationException t) {
@@ -91,7 +93,7 @@ public class ParserHelper {
             for (int i = 0; i < commands.length; i++)
                 tests[i] = parseTest(testSuiteFile.getParent() + File.separator + commands[i]);
 
-            result = new Suite(tests);
+            result = new Suite(tests, handler.getTitle());
 
         } catch (ParserConfigurationException t) {
             Logger.getLogger(ParserHelper.class).error("Error in parseTestSuite", t);

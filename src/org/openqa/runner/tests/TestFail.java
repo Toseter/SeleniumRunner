@@ -15,34 +15,31 @@
 
 package org.openqa.runner.tests;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Created by IntelliJ IDEA.
  * User: lex
- * Date: 09.06.11
- * To change this template use File | Settings | File Templates.
+ * Date: 29.07.11
  */
-public class Suite {
+public class TestFail {
 
-    private String name = "anonymous";
+    private String testName;
+    private Queue<Command> callStack;
 
-    private Test[] _tests;
-
-
-    public Suite(Test[] tests) {
-        _tests = tests;
+    public TestFail(String testName, Queue<Command> callStack) {
+        this.testName = testName;
+        this.callStack = new LinkedList<Command>();
+        this.callStack.addAll(callStack);
     }
 
-    public Suite(Test[] tests, String name) {
-        this(tests);
-        this.name = name;
+    public String getTestName() {
+        return testName;
     }
 
-    public String getName() {
-        return name;
+    public Iterator<Command> getCallStackIterator() {
+        return callStack.iterator();
     }
-
-    public Test[] getTests() {
-        return _tests;
-    }
-
 }

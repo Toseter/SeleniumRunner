@@ -68,6 +68,7 @@ public class ParserHelperTest {
         assertEquals("open", command.getCommandText());
         Map<String, String> params = command.getParams();
         assertEquals("/", params.get("url"));
+        assertEquals("firstTest", test.getState().getTestName());
     }
 
     @Test

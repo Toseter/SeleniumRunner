@@ -47,6 +47,7 @@ public class Executor extends RemoteWebDriver {
 
     public Executor(URL url, Capabilities desiredCapabilities) {
         super(url, desiredCapabilities);
+        _listeners = new LinkedList<ExecutionDoneListener>();
     }
 
     public synchronized void addExecutionDoneListener(ExecutionDoneListener executionDoneListener) {

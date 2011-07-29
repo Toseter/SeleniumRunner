@@ -57,25 +57,25 @@ public class Commands {
     public static void assertText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String targetText = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
         if (!targetText.equals(params.get("text")))
-            state.setAborted(true);
+            state.setAborted();
     }
 
     public static void assertTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String allText = remoteWebDriver.findElementByTagName("body").getText();
         if (!allText.contains(params.get("text")))
-            state.setAborted(true);
+            state.setAborted();
     }
 
     public static void assertTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String title = remoteWebDriver.getTitle();
         if (!title.equals(params.get("value")))
-            state.setAborted(true);
+            state.setAborted();
     }
 
     public static void assertValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
         if (!value.equals(params.get("value")))
-            state.setAborted(true);
+            state.setAborted();
     }
 
     public static void assertTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
@@ -85,14 +85,14 @@ public class Commands {
                 findElements(By.tagName("td")).get(Integer.parseInt(path[2]));
         String text = webElement.getText();
         if (!text.equals(params.get("value")))
-            state.setAborted(true);
+            state.setAborted();
     }
 
     public static void assertElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         try {
             WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
         } catch (org.openqa.selenium.NoSuchElementException ex) {
-            state.setAborted(true);
+            state.setAborted();
         }
     }
 
@@ -101,25 +101,25 @@ public class Commands {
     public static void verifyText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String targetText = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
         if (!targetText.equals(params.get("text")))
-            state.setFailed(true);
+            state.setFailed();
     }
 
     public static void verifyTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String allText = remoteWebDriver.findElementByTagName("body").getText();
         if (!allText.contains(params.get("text")))
-            state.setFailed(true);
+            state.setFailed();
     }
 
     public static void verifyTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String title = remoteWebDriver.getTitle();
         if (!title.equals(params.get("value")))
-            state.setFailed(true);
+            state.setFailed();
     }
 
     public static void verifyValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
         if (!value.equals(params.get("value")))
-            state.setFailed(true);
+            state.setFailed();
     }
 
     public static void verifyTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
@@ -129,14 +129,14 @@ public class Commands {
                 findElements(By.tagName("td")).get(Integer.parseInt(path[2]));
         String text = webElement.getText();
         if (!text.equals(params.get("value")))
-            state.setFailed(true);
+            state.setFailed();
     }
 
     public static void verifyElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         try {
             WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
         } catch (org.openqa.selenium.NoSuchElementException ex) {
-            state.setFailed(true);
+            state.setFailed();
         }
     }
 

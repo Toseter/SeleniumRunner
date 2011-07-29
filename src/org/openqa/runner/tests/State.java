@@ -31,6 +31,7 @@ public class State {
 
 
     private URL baseUrl;
+    private String testName = "anonymous";
     /*
         Don't cause test abortion, for verify
      */
@@ -39,6 +40,8 @@ public class State {
     private Queue<Command> callStack;
     private int callStackSize;
     private Command lastCommand;
+
+    private List<TestFail> testFails;
 
 
     public boolean isFailed() {
@@ -57,23 +60,45 @@ public class State {
 
         variables = new HashMap<String, String>();
         callStack = new LinkedList<Command>();
+        testFails = new LinkedList<TestFail>();
         callStackSize = (Integer) Config.getConfig().get("callStack.size");
     }
 
-    public void setFailed(boolean failed) {
-        isFailed = failed;
+    protected void writeFail() {
+        TestFail testFail = new TestFail(testName, callStack);
+        testFails.add(testFail);
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
+    public List<TestFail> getTestFails() {
+        return testFails;
+    }
+
+    public void setFailed() {
+        isFailed = true;
+        writeFail();
     }
 
     public Command getLastCommand() {
         return lastCommand;
     }
 
+
     public boolean isAborted() {
         return isAborted;
     }
 
-    public void setAborted(boolean aborted) {
-        isAborted = aborted;
+    /* @TODO add exception when adding new command */
+    public void setAborted() {
+        isAborted = true;
+        writeFail();
     }
 
     public void setLastCommand(Command lastCommand) {

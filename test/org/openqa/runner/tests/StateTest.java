@@ -21,6 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -36,11 +38,16 @@ public class StateTest {
     }
 
     private State state;
+    private Command firstCommand, secondCommand;
 
     @Before
     public void setUp() {
         state = new State();
         state.setVariable("else", "something");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("url", "/");
+        firstCommand = new Command("open", params);
+        secondCommand = new Command("something", params);
     }
 
     @After
@@ -63,4 +70,53 @@ public class StateTest {
         assertEquals(null, params.get("url"));
         assertEquals("something", params.get("target"));
     }
+
+    @Test
+    public void testSetLastCommand() {
+        state.setLastCommand(firstCommand);
+        state.setLastCommand(secondCommand);
+
+        Iterator<Command> iterator = state.getCallStackIterator();
+
+        assertEquals(firstCommand, iterator.next());
+        assertEquals(secondCommand, iterator.next());
+        assertEquals(false, iterator.hasNext());
+    }
+
+    @Test
+    public void testSetIsFailed() {
+        state.setLastCommand(firstCommand);
+        state.setFailed();
+        state.setLastCommand(secondCommand);
+        state.setFailed();
+
+        List<TestFail> testFails = state.getTestFails();
+        Iterator<Command> iterator = testFails.get(0).getCallStackIterator();
+
+        assertEquals(2, testFails.size());
+
+        assertEquals(firstCommand, iterator.next());
+        assertEquals(false, iterator.hasNext());
+
+        iterator = testFails.get(1).getCallStackIterator();
+        assertEquals(firstCommand, iterator.next());
+        assertEquals(secondCommand, iterator.next());
+        assertEquals(false, iterator.hasNext());
+    }
+
+    @Test
+    public void testSetIsAborted() {
+        state.setLastCommand(firstCommand);
+        state.setAborted();
+
+        List<TestFail> testFails = state.getTestFails();
+        Iterator<Command> iterator = testFails.get(0).getCallStackIterator();
+
+        assertEquals(1, testFails.size());
+
+        assertEquals(firstCommand, iterator.next());
+        assertEquals(false, iterator.hasNext());
+    }
+
+
 }
