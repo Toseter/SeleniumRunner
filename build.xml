@@ -4,7 +4,10 @@
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
   <property name="build" location="build"/>
+  <property name="build.test" location="build/test"/>
   <property name="dist"  location="dist"/>
+  <property name="test"  location="test"/>
+  <property name="logs"  location="logs"/>
 
   <path id="compile.classpath">
     <fileset dir="libs">
@@ -12,7 +15,7 @@
     </fileset>
   </path>
 
-  <target name="init">
+  <target name="init" depends="clean">
     <!-- Create the time stamp -->
     <tstamp />
     <!-- Create the build directory structure used by compile -->
@@ -20,12 +23,62 @@
   </target>
 
   <target name="compile" depends="init"
-        description="compile the source " >
+        description="compile the source">
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}"
-           destdir="${build}">
-           <classpath refid="compile.classpath"/>
+           destdir="${build}"
+           includeantruntime="false">           
+       <classpath>
+         <path refid="compile.classpath" />
+       </classpath>
     </javac>
+  </target>
+
+  <target name="compile.test" depends="compile"
+        description="compile the source">
+    <mkdir dir="${build.test}"/>
+
+    <!-- <path id="test.classpath">
+      <path refid="compile.classpath" />
+      <fileset dir="${build}">
+        <include name="**/*.class"/>
+        <exclude name="test/**/*.class"/>
+      </fileset>
+    </path>
+
+    <property name="myclasspath" refid="test.classpath"/>
+    <echo message="Classpath = ${myclasspath}"/> -->
+    
+    <javac srcdir="${test}"
+           destdir="${build.test}"
+           includeantruntime="false">
+      <classpath>
+        <pathelement path="${build}"/>
+        <path refid="compile.classpath" />
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="test"
+          depends="compile.test"
+          description="run the tests">
+    <mkdir dir="${logs}" />
+    <junit fork="yes">
+      <classpath>
+        <pathelement path="${build}"/>
+        <pathelement path="${build.test}"/>
+        <path refid="compile.classpath" />
+      </classpath>
+      
+      <formatter type="xml"/>
+      
+      <batchtest fork="yes"
+                 todir="${logs}">
+        <fileset dir="${build.test}">
+          <include name="**/*Test.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
   </target>
 
   <target name="dist" depends="compile"
