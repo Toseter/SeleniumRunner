@@ -20,14 +20,17 @@ import org.openqa.runner.tests.SuiteResult;
 /**
  * Created by IntelliJ IDEA.
  * User: lex
- * Date: 09.06.11
- * Time: 0:31
- * To change this template use File | Settings | File Templates.
+ * Date: 04.08.11
  */
-public abstract class ResultFormater {
+public class HtmlResultFormater extends ResultFormater{
 
-    public abstract void AddSuiteResult(SuiteResult suiteResult);
+    @Override
+    public void AddSuiteResult(SuiteResult suiteResult) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-    public abstract void Process();
-
+    @Override
+    public void Process() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
