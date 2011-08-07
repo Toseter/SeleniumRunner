@@ -15,6 +15,16 @@
 
 package org.openqa.runner;
 
+
+import org.openqa.runner.resultFormaters.DefaultResultFormater;
+import org.openqa.runner.tests.Executor;
+import org.openqa.runner.tests.Suite;
+import org.openqa.runner.tests.SuiteResult;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.net.URL;
+import java.util.Map;
+
 /**
  * Main runner class
  *
@@ -23,6 +33,30 @@ package org.openqa.runner;
 public class SeleniumRunner {
 
     public static void main(String[] args) {
+
+
+        Config.parseConfiguration(args);
+
+        if (Config.isRunnable() == false)
+            System.exit(0);
+
+        Map<String, Object> config = Config.getConfig();
+        String tsPath = (String) config.get("runner.suite_name");
+        if (tsPath == null) {
+            System.err.println("You must specify suite name");
+            System.exit(ExitCodes.SUITE_NAME_EXPECTED);
+        }
+
+        try {
+            Suite suite = ParserHelper.parseTestSuite(tsPath);
+            Executor executor = new Executor(new URL((String) config.get("executor.rc_url")), DesiredCapabilities.firefox());
+            SuiteResult suiteResult = executor.execute(suite);
+            DefaultResultFormater defaultResultFormater = new DefaultResultFormater();
+            defaultResultFormater.AddSuiteResult(suiteResult);
+            defaultResultFormater.Process();
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
 
     }
 

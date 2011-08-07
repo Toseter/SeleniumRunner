@@ -15,12 +15,9 @@
 
 package org.openqa.runner;
 
-import org.apache.log4j.Logger;
 import org.openqa.runner.tests.State;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.Command;
-import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -34,11 +31,7 @@ import java.util.Map;
 public class Commands {
 
     public static void open(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        try {
-            remoteWebDriver.getCommandExecutor().execute(new Command(remoteWebDriver.getSessionId(), DriverCommand.GET, params));
-        } catch (Exception ex) {
-            Logger.getLogger(CommandMappings.class).error("Error in open", ex);
-        }
+        remoteWebDriver.get(params.get("url"));
     }
 
 
