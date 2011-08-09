@@ -21,5 +21,5 @@ package org.openqa.runner.tests;
  * Date: 09.06.11
  * To change this template use File | Settings | File Templates.
  */
-public class Data {
+public class DataSet {
 }

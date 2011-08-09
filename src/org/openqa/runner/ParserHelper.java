@@ -102,12 +102,33 @@ public class ParserHelper {
         return result;
     }
 
-    public static Data parseData() {
+    public static DataSet parseDataSet(String path) {
         throw new NotImplementedException();
     }
 
-    public static Fixture parseFixture() {
-        throw new NotImplementedException();
+    public static Fixture parseFixture(String path) throws IOException, SAXException {
+
+        Fixture fixture = null;
+
+        File testFile = checkFile(path);
+
+        TestHandler handler = new TestHandler();
+
+        if (spf == null)
+            spf = SAXParserFactory.newInstance();
+
+        try {
+
+            SAXParser saxParser = spf.newSAXParser();
+            saxParser.parse(testFile, handler);
+            Command[] commands = handler.getCommands();
+            fixture = new Fixture(commands);
+
+        } catch (ParserConfigurationException t) {
+            Logger.getLogger(ParserHelper.class).error("Error in parsingTest", t);
+        }
+
+        return fixture;
     }
 
     private static File checkFile(String path) throws IOException {

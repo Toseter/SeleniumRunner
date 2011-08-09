@@ -13,12 +13,14 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner.tests;
+package org.openqa.runner;
 
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.runner.ParserHelper;
+import org.openqa.runner.tests.Command;
+import org.openqa.runner.tests.Fixture;
+import org.openqa.runner.tests.Suite;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -78,14 +80,19 @@ public class ParserHelperTest {
         assertEquals(2, tests.length);
     }
 
+    @Test
+    public void testParseFixture() throws Exception {
+        Fixture fixture = ParserHelper.parseFixture("testData" + File.separator + "fixture.f");
+        Command[] commands = fixture.getCommands();
+        assertEquals(3, commands.length);
+        assertEquals("open", commands[0].getCommandText());
+    }
+
 
     @Test
     public void testParseData() throws Exception {
 
     }
 
-    @Test
-    public void testParseFixture() throws Exception {
 
-    }
 }

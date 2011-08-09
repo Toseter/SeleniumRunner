@@ -22,4 +22,14 @@ package org.openqa.runner.tests;
  * To change this template use File | Settings | File Templates.
  */
 public class Fixture {
+
+    Command[] _commands;
+
+    public Fixture(Command[] commands) {
+        _commands = commands;
+    }
+
+    public Command[] getCommands() {
+        return _commands;
+    }
 }
