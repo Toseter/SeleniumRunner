@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Test {
 
+    private String baseUrl;
     protected State state;
 
     /**
@@ -52,5 +53,13 @@ public class Test {
 
     public State getState() {
         return state;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 }

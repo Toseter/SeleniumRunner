@@ -61,8 +61,8 @@ public class ParserHelper {
             SAXParser saxParser = spf.newSAXParser();
             saxParser.parse(testFile, handler);
             Command[] commands = handler.getCommands();
+            result.setBaseUrl(handler.getBaseUrl());
             State state = result.getState();
-            state.setBaseUrl(handler.getBaseUrl());
             state.setTestName(handler.getTitle());
             for (int i = 0; i < commands.length; i++)
                 result.addCommand(commands[i]);
