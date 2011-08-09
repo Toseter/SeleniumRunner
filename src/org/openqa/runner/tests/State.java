@@ -18,8 +18,6 @@ package org.openqa.runner.tests;
 
 import org.openqa.runner.Config;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -30,7 +28,7 @@ import java.util.*;
 public class State {
 
 
-    private URL baseUrl;
+    private String baseUrl;
     private String testName = "anonymous";
     /*
         Don't cause test abortion, for verify
@@ -52,12 +50,7 @@ public class State {
     private Map<String, String> variables;
 
     public State() {
-        try {
-            baseUrl = new URL("http://localhost");
-        } catch (MalformedURLException ex) {
-            throw new RuntimeException("Error in code", ex);
-        }
-
+        baseUrl = "http://localhost";
         variables = new HashMap<String, String>();
         callStack = new LinkedList<Command>();
         testFails = new LinkedList<TestFail>();
@@ -125,11 +118,11 @@ public class State {
         return variables.get(name);
     }
 
-    public URL getBaseUrl() {
+    public String getBaseUrl() {
         return baseUrl;
     }
 
-    public void setBaseUrl(URL baseUrl) {
+    public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 

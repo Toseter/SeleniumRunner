@@ -29,7 +29,6 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -63,7 +62,7 @@ public class ParserHelper {
             saxParser.parse(testFile, handler);
             Command[] commands = handler.getCommands();
             State state = result.getState();
-            state.setBaseUrl(new URL(handler.getBaseUrl()));
+            state.setBaseUrl(handler.getBaseUrl());
             state.setTestName(handler.getTitle());
             for (int i = 0; i < commands.length; i++)
                 result.addCommand(commands[i]);
@@ -123,6 +122,7 @@ public class ParserHelper {
             saxParser.parse(testFile, handler);
             Command[] commands = handler.getCommands();
             fixture = new Fixture(commands);
+            fixture.setBaseUrl(handler.getBaseUrl());
 
         } catch (ParserConfigurationException t) {
             Logger.getLogger(ParserHelper.class).error("Error in parsingTest", t);

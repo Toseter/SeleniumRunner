@@ -81,11 +81,7 @@ public class CommandsTest {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("url", "/testMaterial2.html");
         test.addCommand(new Command("open", params));
-        try {
-            test.getState().setBaseUrl(new URL(basePath));
-        } catch (MalformedURLException ex) {
-
-        }
+        test.getState().setBaseUrl(basePath);
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
         executor.execute(suite);
         assertEquals("testMaterial2", executor.getTitle());

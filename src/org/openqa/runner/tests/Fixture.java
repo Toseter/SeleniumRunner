@@ -23,6 +23,7 @@ package org.openqa.runner.tests;
  */
 public class Fixture {
 
+    String _baseUrl;
     Command[] _commands;
 
     public Fixture(Command[] commands) {
@@ -31,5 +32,13 @@ public class Fixture {
 
     public Command[] getCommands() {
         return _commands;
+    }
+
+    public void setBaseUrl(String url) {
+        _baseUrl = url;
+    }
+
+    public String getBaseUrl(String url) {
+        return _baseUrl;
     }
 }

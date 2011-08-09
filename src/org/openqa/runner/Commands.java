@@ -38,7 +38,7 @@ public class Commands {
         String url = params.get("url");
         if (checkIsRelativeUrl(url)) {
 
-            String base = state.getBaseUrl().toString();
+            String base = state.getBaseUrl();
             if (base.endsWith("/"))
                 base = base.substring(0, base.length() - 1);
 
