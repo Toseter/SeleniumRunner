@@ -61,7 +61,7 @@ public class State {
         variables = new HashMap<String, String>();
         callStack = new LinkedList<Command>();
         testFails = new LinkedList<TestFail>();
-        callStackSize = (Integer) Config.getConfig().get("callStack.size");
+        callStackSize = (Integer) Config.getConfig().get("state.callStack.size");
     }
 
     protected void writeFail() {

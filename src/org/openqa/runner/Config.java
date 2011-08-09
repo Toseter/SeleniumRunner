@@ -17,7 +17,9 @@ package org.openqa.runner;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,10 +28,93 @@ import java.util.Map;
  */
 public class Config {
 
+    private final static String VERSION = "0.0.1";
     private static Map<String, Object> _config;
 
-    public static void parse(String[] args) {
+    private final static int STRING = 1;
+    private final static int INT = 2;
+    private final static int WO_PARAM = 3;
 
+
+    /*
+     * Mapping for easy change CLI ( just change key )
+     * And other purpose avoid config-key collisions
+     */
+    private static Map<String, String>
+            _configMappings = new ImmutableMap.Builder<String, String>()
+            .put("rc_url", "executor.rc_url")
+            .put("browsers", "executor.browsers")
+            .build();
+
+
+    private static Map<String, Integer>
+            _configMappingsTypes = new ImmutableMap.Builder<String, Integer>()
+            .put("executor.rc_url", STRING)
+            .put("executor.browsers", STRING)
+            .build();
+
+
+    private static boolean _isRunnable = true;
+
+    public static void parseConfiguration(String args[]) {
+        hasDefaultConfig();
+
+        /*
+         *  0 for non param
+         *  1 for short param ( like -v )
+         *  2 for long param  ( like --version )
+         */
+        boolean isParamValue = false;
+        String configKey = "";
+        String optionName = "";
+        String paramName = "";
+        for (String param : args) {
+
+            if (isNotRunnableParam(param))
+                return;
+
+            if (param.startsWith("-")) {
+                try {
+                    optionName = _configMappings.get(param.replace("-", ""));
+                } catch (NoSuchElementException ex) {
+                    System.err.print("No such option \"" + param + "\"");
+                    System.exit(ExitCodes.NO_SUCH_OPTION);
+                }
+
+                if (isParamValue == true) {
+                    if (_configMappingsTypes.get(optionName) != WO_PARAM) {
+                        System.err.println("Missing parameter value for " + paramName);
+                        System.exit(ExitCodes.PARAM_EXPECTED);
+                    } else {
+                        _config.put(optionName, true);
+                    }
+
+                }
+
+                isParamValue = true;
+            } else {
+                if (isParamValue) {
+                    Object paramValue = null;
+
+                    paramValue = parseValue(optionName, param);
+
+                    if (paramValue == null) {
+                        System.err.println("Parameter " + paramName + " must be a number");
+                        System.exit(ExitCodes.OPTION_MUST_BE_NUM);
+                    }
+
+                    _config.put(optionName, paramValue);
+                } else {
+                    _config.put("runner.suite_name", param);
+                }
+                isParamValue = false;
+            }
+
+        }
+    }
+
+    public static boolean isRunnable() {
+        return _isRunnable;
     }
 
     public static Map<String, Object> getConfig() {
@@ -40,11 +125,56 @@ public class Config {
         return _config;
     }
 
+    private static Object parseValue(String name, String value) throws NumberFormatException {
+        int code = _configMappingsTypes.get(name);
+
+        Object result = null;
+
+        switch (code) {
+            case STRING:
+                result = value;
+                break;
+            case INT:
+                result = Integer.parseInt(value);
+                break;
+            default:
+                result = null;
+        }
+
+        return result;
+    }
+
+    private static boolean isNotRunnableParam(String param) {
+        if (param.equals("-v") || param.equals("--version")) {
+            _isRunnable = false;
+            CliHelper.printVersionMessage();
+            return true;
+        }
+
+        if (param.equals("-h") || param.equals("--help")) {
+            _isRunnable = false;
+            CliHelper.printHelpMessage();
+            return true;
+        }
+
+        return false;
+    }
+
+    private static void hasDefaultConfig() {
+        if (_config == null)
+            defaultConfig();
+    }
+
     private static void defaultConfig() {
-        _config = new ImmutableMap.Builder<String, Object>().
-                put("rc_url", "http://localhost:4444").
-                put("browsers", "*firefox").
-                put("callStack.size", 5).
-                build();
+
+        _config = new HashMap<String, Object>();
+        _config.put("common.version", VERSION);
+
+        /* executor default options */
+        _config.put("executor.rc_url", "http://localhost:4444/wd/hub");
+        _config.put("executor.browsers", "*firefox");
+
+        /* Test state default options */
+        _config.put("state.callStack.size", 5);
     }
 }
