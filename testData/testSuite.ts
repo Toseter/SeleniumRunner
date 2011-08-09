@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <link rel="beginSuite" href="fixture.f" />
+  <link rel="afterSuite" href="fixture.f" />
   <title>Test Suite</title>
 </head>
 <body>
