@@ -60,17 +60,25 @@ public class CommandMappings {
     }
 
     public static By detectTargetMethod(String target) {
-        if ((target.startsWith("//")) || (target.startsWith("xpath")))
-            By.xpath(target);
+        if ((target.startsWith("//")) || (target.startsWith("xpath="))) {
+            target = target.replace("xpath=", "");
+            return By.xpath(target);
+        }
 
-        if (target.startsWith("link"))
-            By.linkText(target);
+        if (target.startsWith("link=")) {
+            target = target.replace("link=", "");
+            return By.linkText(target);
+        }
 
-        if (target.startsWith("css"))
-            By.cssSelector(target);
+        if (target.startsWith("css=")) {
+            target = target.replace("css=", "");
+            return By.cssSelector(target);
+        }
 
-        if (target.startsWith("name"))
-            By.name(target);
+        if (target.startsWith("name=")) {
+            target = target.replace("name=", "");
+            return By.name(target);
+        }
 
         if ((target.startsWith("dom")) || (target.startsWith("document."))) {
             return new ByDOM(target);

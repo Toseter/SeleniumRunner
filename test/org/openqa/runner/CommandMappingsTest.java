@@ -19,6 +19,9 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,8 +41,42 @@ public class CommandMappingsTest {
     public void tearDown() {
     }
 
+    /**
+     * This test depends on current Selenium Implementation
+     *
+     * @TODO add ByDom , when finish ByDom class
+     */
     @Test
     public void testDetectTargetMethod() {
 
+        String target;
+
+        target = "//some/path";
+        By context = CommandMappings.detectTargetMethod(target);
+        assertEquals("By.xpath: //some/path", context.toString());
+
+        target = "xpath=//some/path";
+        context = CommandMappings.detectTargetMethod(target);
+        assertEquals("By.xpath: //some/path", context.toString());
+
+        target = "link=Some-text";
+        context = CommandMappings.detectTargetMethod(target);
+        assertEquals("By.linkText: Some-text", context.toString());
+
+        target = "css=#some-id";
+        context = CommandMappings.detectTargetMethod(target);
+        assertEquals("By.selector: #some-id", context.toString());
+
+        target = "name=some-name";
+        context = CommandMappings.detectTargetMethod(target);
+        assertEquals("By.name: some-name", context.toString());
+
+        target = "id=some-id";
+        context = CommandMappings.detectTargetMethod(target);
+        assertEquals("By.id: some-id", context.toString());
+
+        target = "some target";
+        context = CommandMappings.detectTargetMethod(target);
+        assertEquals("by id or name \"some target\"", context.toString());
     }
 }
