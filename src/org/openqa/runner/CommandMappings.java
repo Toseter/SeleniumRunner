@@ -44,6 +44,11 @@ public class CommandMappings {
     public static final int IDENTIFIER = 6;
     public static final int NONE = 999;
 
+    /*
+    *
+    * @TODO Work at exceptions
+    *
+    * */
     public static void execute(RemoteWebDriver remoteWebDriver, State state, String commandText, Map<String, String> params) throws NoSuchMethodException {
         Method method = Commands.class.getMethod(commandText, new Class[]{RemoteWebDriver.class, State.class, Map.class});
 

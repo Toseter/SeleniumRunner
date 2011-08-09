@@ -30,7 +30,7 @@
     </tr>
     <tr>
         <td>click</td>
-        <td>link=Selenium web application testing system</td>
+        <td>link=Selenium - Web Browser Automation</td>
         <td></td>
     </tr>
     <tr>

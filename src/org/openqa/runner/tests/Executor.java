@@ -78,6 +78,7 @@ public class Executor extends RemoteWebDriver {
                 Command command = test.nextCommand();
                 String commandText = command.getCommandText();
                 Map<String, String> params = state.processParams(command.getParams());
+                state.setLastCommand(command);
                 try {
                     CommandMappings.execute(this, state, commandText, params);
                 } catch (NoSuchMethodException ex) {
