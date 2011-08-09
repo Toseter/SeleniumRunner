@@ -37,7 +37,12 @@ public class Commands {
     public static void open(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
         String url = params.get("url");
         if (checkIsRelativeUrl(url)) {
-            url = state.getBaseUrl().toString().concat(url);
+
+            String base = state.getBaseUrl().toString();
+            if (base.endsWith("/"))
+                base = base.substring(0, base.length() - 1);
+
+            url = base.concat(url);
         }
         remoteWebDriver.get(url);
     }
