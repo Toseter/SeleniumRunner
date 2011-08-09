@@ -76,6 +76,22 @@ public class CommandsTest {
     }
 
     @Test
+    public void testOpenRelativeUrl() {
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("url", "/testMaterial2.html");
+        test.addCommand(new Command("open", params));
+        try {
+            test.getState().setBaseUrl(new URL(basePath));
+        } catch (MalformedURLException ex) {
+
+        }
+        Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
+        executor.execute(suite);
+        assertEquals("testMaterial2", executor.getTitle());
+    }
+
+    @Test
     public void testClick() {
         org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
         HashMap<String, String> params = new HashMap<String, String>();
