@@ -67,6 +67,52 @@ public class TestTest {
 
     @Test
     public void testNextCommand() {
-        assertEquals(exCommand, test.nextCommand());
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("url", "/index");
+        Command command = new Command("open", params);
+        Command[] commands = {command, exCommand};
+        Fixture fixture = new Fixture(commands);
+        fixture.setBaseUrl("fixture");
+
+        org.openqa.runner.tests.Test test = new org.openqa.runner.tests.Test();
+        test.addCommand(exCommand);
+        test.addCommand(exCommand);
+        test.setBaseUrl("test");
+
+        test.setBeforeSuite(fixture);
+        test.setAfterSuite(fixture);
+        test.setAfterTest(fixture);
+        test.setBeforeTest(fixture);
+
+        Command currentCommand = test.nextCommand();
+
+        /* Before Suite */
+        assertEquals(command, currentCommand);
+        assertEquals("fixture", test.getState().getBaseUrl());
+
+        currentCommand = test.nextCommand();
+        assertEquals(exCommand, currentCommand);
+
+        /*Before test */
+        currentCommand = test.nextCommand();
+        assertEquals(command, currentCommand);
+        test.nextCommand();
+
+        /*Test*/
+        currentCommand = test.nextCommand();
+        assertEquals(exCommand, currentCommand);
+        assertEquals("test", test.getState().getBaseUrl());
+
+        currentCommand = test.nextCommand();
+        assertEquals(exCommand, currentCommand);
+
+
+        /* After test */
+        currentCommand = test.nextCommand();
+        assertEquals(command, currentCommand);
+        assertEquals("fixture", test.getState().getBaseUrl());
+
+        currentCommand = test.nextCommand();
+        assertEquals(exCommand, currentCommand);
     }
 }
