@@ -33,10 +33,6 @@ public class Suite {
 
     public Suite(Test[] tests) {
         _tests = tests;
-        for (Test test : _tests) {
-            test.setBeforeSuite(_beforeSuite);
-            test.setAfterSuite(_afterSuite);
-        }
     }
 
     public Suite(Test[] tests, String name) {
@@ -52,11 +48,17 @@ public class Suite {
         return _tests;
     }
 
-    public void set_beforeSuite(Fixture _beforeSuite) {
-        this._beforeSuite = _beforeSuite;
+    public void setBeforeSuite(Fixture beforeSuite) {
+        _beforeSuite = beforeSuite;
+        for (Test test : _tests) {
+            test.setBeforeSuite(_beforeSuite);
+        }
     }
 
-    public void set_afterSuite(Fixture _afterSuite) {
-        this._afterSuite = _afterSuite;
+    public void setAfterSuite(Fixture afterSuite) {
+        _afterSuite = afterSuite;
+        for (Test test : _tests) {
+            test.setAfterSuite(_afterSuite);
+        }
     }
 }

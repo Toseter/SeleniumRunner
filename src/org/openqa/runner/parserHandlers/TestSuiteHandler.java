@@ -33,6 +33,8 @@ public class TestSuiteHandler extends DefaultHandler {
     private String uri = "";
     private String title = "";
     private ArrayList<String> tests = new ArrayList<String>();
+    private String beforeSuite = null;
+    private String afterSuite = null;
 
     public String[] getTests() {
         return tests.toArray(new String[tests.size()]);
@@ -53,6 +55,18 @@ public class TestSuiteHandler extends DefaultHandler {
         if ("tr".equals(qName)) {
             start++;
             this.uri = "";
+
+        }
+
+        if ("link".equals(qName)) {
+            String rel = attributes.getValue("rel");
+            String href = attributes.getValue("href");
+
+            if (rel.equals("beforeSuite")) {
+                beforeSuite = href;
+            } else if (rel.equals("afterSuite")) {
+                afterSuite = href;
+            }
 
         }
 
@@ -88,5 +102,13 @@ public class TestSuiteHandler extends DefaultHandler {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getBeforeSuite() {
+        return beforeSuite;
+    }
+
+    public String getAfterSuite() {
+        return afterSuite;
     }
 }

@@ -70,7 +70,17 @@ public class ParserHelperTest {
         assertEquals("open", command.getCommandText());
         Map<String, String> params = command.getParams();
         assertEquals("/", params.get("url"));
+
+        test.nextCommand();
+        test.nextCommand();
+        command.getCommandText();
+
+        assertEquals("open", command.getCommandText());
+        params = command.getParams();
+        assertEquals("/", params.get("url"));
+
         assertEquals("firstTest", test.getState().getTestName());
+
     }
 
     @Test
@@ -86,6 +96,7 @@ public class ParserHelperTest {
         Command[] commands = fixture.getCommands();
         assertEquals(3, commands.length);
         assertEquals("open", commands[0].getCommandText());
+        assertEquals("http://www.google.ru/", fixture.getBaseUrl());
     }
 
 

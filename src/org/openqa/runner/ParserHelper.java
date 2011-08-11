@@ -66,6 +66,17 @@ public class ParserHelper {
             state.setTestName(handler.getTitle());
             for (int i = 0; i < commands.length; i++)
                 result.addCommand(commands[i]);
+
+            if (handler.getBeforeTest() != null) {
+                Fixture beforeTest = parseFixture(testFile.getParent() + File.separator + handler.getBeforeTest());
+                result.setBeforeTest(beforeTest);
+            }
+
+            if (handler.getAfterTest() != null) {
+                Fixture afterTest = parseFixture(testFile.getParent() + File.separator + handler.getAfterTest());
+                result.setAfterTest(afterTest);
+            }
+
         } catch (ParserConfigurationException t) {
             Logger.getLogger(ParserHelper.class).error("Error in parsingTest", t);
         }
@@ -93,6 +104,16 @@ public class ParserHelper {
                 tests[i] = parseTest(testSuiteFile.getParent() + File.separator + commands[i]);
 
             result = new Suite(tests, handler.getTitle());
+
+            if (handler.getBeforeSuite() != null) {
+                Fixture beforeSuite = parseFixture(testSuiteFile.getParent() + File.separator + handler.getBeforeSuite());
+                result.setBeforeSuite(beforeSuite);
+            }
+
+            if (handler.getAfterSuite() != null) {
+                Fixture afterSuite = parseFixture(testSuiteFile.getParent() + File.separator + handler.getAfterSuite());
+                result.setAfterSuite(afterSuite);
+            }
 
         } catch (ParserConfigurationException t) {
             Logger.getLogger(ParserHelper.class).error("Error in parseTestSuite", t);

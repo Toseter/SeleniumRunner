@@ -35,6 +35,9 @@ public class TestHandler extends DefaultHandler {
     private boolean isTitle;
     private int command = -2;
 
+    private String beforeTest = null;
+    private String afterTest = null;
+
     private String commandText = "";
     private String paramText = "";
     private String targetText = "";
@@ -61,9 +64,17 @@ public class TestHandler extends DefaultHandler {
         isTitle = "title".equals(qName);
 
         if ("link".equals(qName)) {
-            if (attributes.getValue("rel").equals("selenium.base")) {
-                baseUrl = attributes.getValue("href");
+            String rel = attributes.getValue("rel");
+            String href = attributes.getValue("href");
+
+            if (rel.equals("selenium.base")) {
+                baseUrl = href;
+            } else if (rel.equals("beforeTest")) {
+                beforeTest = href;
+            } else if (rel.equals("afterTest")) {
+                afterTest = href;
             }
+
         }
 
         if ("tbody".equals(qName))
@@ -149,5 +160,13 @@ public class TestHandler extends DefaultHandler {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getBeforeTest() {
+        return beforeTest;
+    }
+
+    public String getAfterTest() {
+        return afterTest;
     }
 }
