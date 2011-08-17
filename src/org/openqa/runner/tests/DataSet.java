@@ -15,6 +15,9 @@
 
 package org.openqa.runner.tests;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by IntelliJ IDEA.
  * User: lex
@@ -22,4 +25,20 @@ package org.openqa.runner.tests;
  * To change this template use File | Settings | File Templates.
  */
 public class DataSet {
+
+    private Map<String, String> valueMap;
+
+    public void setValue(String key, String value) {
+        valueMap.put(key, value);
+    }
+
+    public String getValue(String key) {
+        return valueMap.get(key);
+    }
+
+    public DataSet() {
+        super();
+        valueMap = new HashMap<String, String>();
+    }
+
 }
