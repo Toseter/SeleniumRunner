@@ -19,6 +19,7 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.runner.tests.Command;
+import org.openqa.runner.tests.DataSet;
 import org.openqa.runner.tests.Fixture;
 import org.openqa.runner.tests.Suite;
 import org.xml.sax.SAXException;
@@ -26,6 +27,7 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
@@ -102,6 +104,20 @@ public class ParserHelperTest {
 
     @Test
     public void testParseData() throws Exception {
+        List<DataSet> dataSets = ParserHelper.parseDataSet("testData" + File.separator + "dataSet.ds");
+
+        assertEquals(2, dataSets.size());
+
+        DataSet ds = dataSets.get(0);
+        assertEquals("first data set", ds.getName());
+        assertEquals("some value", ds.getValue("name"));
+        assertEquals("some value", ds.getValue("other_name"));
+
+        ds = dataSets.get(1);
+        assertEquals("second data set", ds.getName());
+        assertEquals("some value", ds.getValue("name"));
+        assertEquals("some value", ds.getValue("other_name"));
+
 
     }
 

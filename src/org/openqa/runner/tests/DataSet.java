@@ -24,9 +24,10 @@ import java.util.Map;
  * Date: 09.06.11
  * To change this template use File | Settings | File Templates.
  */
-public class DataSet {
+public class DataSet implements Cloneable {
 
     private Map<String, String> valueMap;
+    private String name;
 
     public void setValue(String key, String value) {
         valueMap.put(key, value);
@@ -41,4 +42,16 @@ public class DataSet {
         valueMap = new HashMap<String, String>();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();    //To change body of overridden methods use File | Settings | File Templates.
+    }
 }

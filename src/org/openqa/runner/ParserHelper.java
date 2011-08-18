@@ -17,11 +17,11 @@ package org.openqa.runner;
 
 
 import org.apache.log4j.Logger;
+import org.openqa.runner.parserHandlers.DataSetHandler;
 import org.openqa.runner.parserHandlers.TestHandler;
 import org.openqa.runner.parserHandlers.TestSuiteHandler;
 import org.openqa.runner.tests.*;
 import org.xml.sax.SAXException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -29,6 +29,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -122,8 +123,26 @@ public class ParserHelper {
         return result;
     }
 
-    public static DataSet parseDataSet(String path) {
-        throw new NotImplementedException();
+    public static List<DataSet> parseDataSet(String path) throws IOException, SAXException {
+
+        File dataSetFile = checkFile(path);
+        DataSetHandler handler = new DataSetHandler();
+
+        if (spf == null)
+            spf = SAXParserFactory.newInstance();
+
+        List<DataSet> result = null;
+
+        try {
+            SAXParser saxParser = spf.newSAXParser();
+            saxParser.parse(dataSetFile, handler);
+            result = handler.getDataSets();
+
+        } catch (ParserConfigurationException t) {
+            Logger.getLogger(ParserHelper.class).error("Error in parseTestSuite", t);
+        }
+
+        return result;
     }
 
     public static Fixture parseFixture(String path) throws IOException, SAXException {
