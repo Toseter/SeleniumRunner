@@ -23,10 +23,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Date: 09.06.11
  * To change this template use File | Settings | File Templates.
  */
-public class Test {
+public class Test implements isCloneable {
 
     private String _baseUrl;
     private State _state;
+
+    private boolean _isCloneable = true;
 
     private int commandState;
 
@@ -80,6 +82,8 @@ public class Test {
     }
 
     public Command nextCommand() {
+
+        _isCloneable = false;
 
         Command result = null;
 
@@ -152,4 +156,28 @@ public class Test {
     public void setAfterSuite(Fixture afterSuite) {
         this.afterSuite = afterSuite;
     }
+
+
+    public boolean isCloneable() {
+        return (_isCloneable && _state.isCloneable());
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+
+        if (!isCloneable()) {
+            throw new CloneNotSupportedException("Not cloneable at this state.");
+        }
+
+        Test clone = new Test();
+        clone._state = (State) _state.clone();
+        clone._commands = new ConcurrentLinkedQueue<Command>(_commands);
+        clone.beforeSuite = beforeSuite;
+        clone.afterSuite = afterSuite;
+        clone.beforeTest = beforeTest;
+        clone.afterTest = afterTest;
+        return clone;
+    }
+
+
 }

@@ -25,11 +25,15 @@ import java.util.*;
  * User: lex
  * Date: 30.06.11
  */
-public class State {
+public class State implements isCloneable {
 
 
     private String baseUrl;
     private String testName = "anonymous";
+
+
+    private boolean _isCloneable = true;
+
     /*
         Don't cause test abortion, for verify
      */
@@ -47,11 +51,11 @@ public class State {
     }
 
 
-    private Map<String, String> variables;
+    private DataSet dataSet;
 
     public State() {
         baseUrl = "http://localhost";
-        variables = new HashMap<String, String>();
+        dataSet = new DataSet();
         callStack = new LinkedList<Command>();
         testFails = new LinkedList<TestFail>();
         callStackSize = (Integer) Config.getConfig().get("state.callStack.size");
@@ -111,11 +115,11 @@ public class State {
     }
 
     public void setVariable(String name, String value) {
-        variables.put(name, value);
+        dataSet.setValue(name, value);
     }
 
     public String getVariable(String name) {
-        return variables.get(name);
+        return dataSet.getValue(name);
     }
 
     public String getBaseUrl() {
@@ -139,4 +143,21 @@ public class State {
         return params;
     }
 
+    @Override
+    public boolean isCloneable() {
+        return _isCloneable;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+
+        if (!isCloneable()) {
+            throw new CloneNotSupportedException("Not cloneable at this state.");
+        }
+
+        State clone = new State();
+        clone.baseUrl = baseUrl;
+        clone.dataSet = (DataSet) dataSet.clone();
+        return clone;
+    }
 }

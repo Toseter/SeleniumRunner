@@ -16,7 +16,6 @@
 package org.openqa.runner.tests;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +25,7 @@ import java.util.Map;
  */
 public class DataSet implements Cloneable {
 
-    private Map<String, String> valueMap;
+    private HashMap<String, String> valueMap;
     private String name;
 
     public void setValue(String key, String value) {
@@ -51,7 +50,11 @@ public class DataSet implements Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();    //To change body of overridden methods use File | Settings | File Templates.
+    public Object clone() throws CloneNotSupportedException {
+
+        DataSet clone = new DataSet();
+        clone.name = name.substring(name.length());
+        clone.valueMap = new HashMap<String, String>(valueMap);
+        return clone;
     }
 }
