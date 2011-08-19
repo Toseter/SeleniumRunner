@@ -4,3 +4,4 @@ build
 dist
 out/
 logs/
+javadoc/
