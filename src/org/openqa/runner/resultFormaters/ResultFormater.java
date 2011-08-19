@@ -17,13 +17,6 @@ package org.openqa.runner.resultFormaters;
 
 import org.openqa.runner.tests.SuiteResult;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 09.06.11
- * Time: 0:31
- * To change this template use File | Settings | File Templates.
- */
 public abstract class ResultFormater {
 
     public abstract void AddSuiteResult(SuiteResult suiteResult);

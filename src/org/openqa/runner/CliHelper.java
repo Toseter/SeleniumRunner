@@ -16,11 +16,6 @@
 package org.openqa.runner;
 
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 04.08.11
- */
 public class CliHelper {
 
     public static void printHelpMessage() {

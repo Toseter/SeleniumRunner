@@ -20,11 +20,6 @@ import org.openqa.runner.Config;
 
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 30.06.11
- */
 public class State implements isCloneable {
 
 

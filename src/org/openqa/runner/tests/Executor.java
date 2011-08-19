@@ -26,11 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 20.06.11
- */
 public class Executor extends RemoteWebDriver {
 
     /*

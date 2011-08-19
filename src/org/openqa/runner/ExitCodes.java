@@ -16,11 +16,6 @@
 package org.openqa.runner;
 
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 07.08.11
- */
 public class ExitCodes {
 
     public static final int NO_SUCH_OPTION = 1;

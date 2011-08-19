@@ -26,11 +26,6 @@ import org.openqa.selenium.support.ByIdOrName;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 20.06.11
- */
 public class CommandMappings {
 
     private static Map<String, String> _paramMapping;

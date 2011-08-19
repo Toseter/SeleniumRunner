@@ -18,22 +18,14 @@ package org.openqa.selenium.support;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsById;
 import org.openqa.selenium.internal.FindsByXPath;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 03.07.11
- */
-public class ByDOM extends By
-{
+public class ByDOM extends By {
     private final String domTarget;
 
-    public ByDOM(String target)
-    {
+    public ByDOM(String target) {
         domTarget = target;
     }
 

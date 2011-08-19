@@ -23,11 +23,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 03.07.11
- */
 public class Commands {
 
 

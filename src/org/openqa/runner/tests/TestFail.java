@@ -19,11 +19,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 29.07.11
- */
 public class TestFail {
 
     private String testName;

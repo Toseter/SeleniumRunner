@@ -17,11 +17,6 @@ package org.openqa.runner.tests;
 
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 19.07.11
- */
 public class Command {
 
     private String commandText;

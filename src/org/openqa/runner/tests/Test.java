@@ -17,12 +17,6 @@ package org.openqa.runner.tests;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 09.06.11
- * To change this template use File | Settings | File Templates.
- */
 public class Test implements isCloneable {
 
     private String _baseUrl;

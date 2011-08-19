@@ -21,11 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 20.06.11
- */
 public class Config {
 
     private final static String VERSION = "0.0.1";

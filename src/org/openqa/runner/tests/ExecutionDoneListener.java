@@ -15,11 +15,6 @@
 
 package org.openqa.runner.tests;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 29.07.11
- */
 public interface ExecutionDoneListener {
 
     public void handleExecutionDone(ExecutionDone executionDone);

@@ -17,12 +17,7 @@ package org.openqa.runner.resultFormaters;
 
 import org.openqa.runner.tests.SuiteResult;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 04.08.11
- */
-public class HtmlResultFormater extends ResultFormater{
+public class HtmlResultFormater extends ResultFormater {
 
     @Override
     public void AddSuiteResult(SuiteResult suiteResult) {

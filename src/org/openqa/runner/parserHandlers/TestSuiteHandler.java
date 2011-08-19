@@ -21,11 +21,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 05.07.11
- */
 public class TestSuiteHandler extends DefaultHandler {
 
     private boolean isTitle = false;

@@ -15,12 +15,6 @@
 
 package org.openqa.runner.tests;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 09.06.11
- * To change this template use File | Settings | File Templates.
- */
 public class Fixture {
 
     private String _baseUrl;

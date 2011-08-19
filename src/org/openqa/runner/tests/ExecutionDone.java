@@ -17,11 +17,6 @@ package org.openqa.runner.tests;
 
 import java.util.EventObject;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 29.07.11
- */
 public class ExecutionDone extends EventObject {
     private SuiteResult suiteResult;
 

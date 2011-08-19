@@ -18,12 +18,6 @@ package org.openqa.runner.tests;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 09.06.11
- * To change this template use File | Settings | File Templates.
- */
 public class SuiteResult {
 
     /* @TODO Think about how write about not failed tests */

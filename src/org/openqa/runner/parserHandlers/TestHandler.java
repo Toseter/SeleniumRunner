@@ -25,11 +25,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.LinkedList;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 19.06.11
- */
 public class TestHandler extends DefaultHandler {
 
     private boolean isTitle;

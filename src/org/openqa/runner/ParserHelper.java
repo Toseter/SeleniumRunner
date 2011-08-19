@@ -32,12 +32,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 09.06.11
- * To change this template use File | Settings | File Templates.
- */
 public class ParserHelper {
 
     private static SAXParserFactory spf;

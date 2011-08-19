@@ -25,77 +25,63 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: lex
- * Date: 09.06.11
- * Time: 0:32
- * To change this template use File | Settings | File Templates.
- */
-public class DefaultResultFormater extends ResultFormater{
+public class DefaultResultFormater extends ResultFormater {
 
     private List<SuiteResult> _results;
 
-    public DefaultResultFormater(){
+    public DefaultResultFormater() {
         super();
         _results = new LinkedList<SuiteResult>();
     }
 
     @Override
     public void AddSuiteResult(SuiteResult suiteResult) {
-       _results.add(suiteResult);
+        _results.add(suiteResult);
     }
 
     @Override
     public void Process() {
-       StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
-       for (SuiteResult result : _results)
-       {
-           stringBuilder.append("["+ result.getTestSuiteName() +"]\r\n")
-                        .append("Tests executed:").append(result.getDoneTestCount())
-                        .append("\r\nTests failed:").append(result.getFailedTestCount()).append("\r\n\r\n");
+        for (SuiteResult result : _results) {
+            stringBuilder.append("[" + result.getTestSuiteName() + "]\r\n")
+                    .append("Tests executed:").append(result.getDoneTestCount())
+                    .append("\r\nTests failed:").append(result.getFailedTestCount()).append("\r\n\r\n");
 
-           for(TestFail fail : result.getTestFails())
-           {
-               stringBuilder.append("{"+fail.getTestName()+"}\r\n")
-                            .append(formatCallStack(fail.getCallStackIterator()))
-                            .append("\r\n\r\n");
+            for (TestFail fail : result.getTestFails()) {
+                stringBuilder.append("{" + fail.getTestName() + "}\r\n")
+                        .append(formatCallStack(fail.getCallStackIterator()))
+                        .append("\r\n\r\n");
 
-           }
-       }
+            }
+        }
 
-       System.out.println(stringBuilder.toString());
+        System.out.println(stringBuilder.toString());
     }
 
-    private String formatCallStack(Iterator<Command> commandsIterator)
-    {
+    private String formatCallStack(Iterator<Command> commandsIterator) {
         StringBuilder stringBuilder = new StringBuilder();
         Command command;
         int i = 0;
-        Map<String,String> comMap = CommandMappings.getParamMapping();
+        Map<String, String> comMap = CommandMappings.getParamMapping();
 
 
-
-        while (commandsIterator.hasNext())
-        {
+        while (commandsIterator.hasNext()) {
             command = commandsIterator.next();
 
 
             String params = comMap.get(command.getCommandText());
             String[] paramsArr = params.split(":");
-            Map<String,String> paramsValue = command.getParams();
+            Map<String, String> paramsValue = command.getParams();
             stringBuilder.append(i).append(": <")
-                         .append(command.getCommandText())
-                         .append("> ");
+                    .append(command.getCommandText())
+                    .append("> ");
 
-            for(String p:paramsArr)
-            {
+            for (String p : paramsArr) {
                 stringBuilder.append(p).append("='").append(paramsValue.get(p)).append("'\r\n");
             }
             i++;
         }
-
 
 
         return stringBuilder.toString();
