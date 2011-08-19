@@ -26,9 +26,20 @@ import java.net.URL;
 import java.util.Map;
 
 /**
- * Main runner class
+ * <h3>Main runner class.</h3>
+ * Workflow:
+ * <ol>
+ * <li>Parse params</li>
+ * <li>Parse tests into Suites</li>
+ * <li>Execute Suites by Executor</li>
+ * <li>Create results</li>
+ * <li>Output results</li>
+ * </ol>
  *
- * @TODO make documentation
+ * @see Suite
+ * @see Config
+ * @see Executor
+ * @see ParserHelper
  */
 public class SeleniumRunner {
 

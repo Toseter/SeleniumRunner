@@ -21,6 +21,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * Config class.<br/>
+ * Exercise CLI args parsing , and contains config.<br/>
+ * Can print messages in console.<br/>
+ * <br/>
+ * <p/>
+ * Exit codes can be found in {@link ExitCodes}
+ *
+ * @see CliHelper
+ * @see ExitCodes
+ */
 public class Config {
 
     private final static String VERSION = "0.0.1";
@@ -51,16 +62,15 @@ public class Config {
 
     private static boolean _isRunnable = true;
 
+    /**
+     * Parse CLI args and set defaultConfiguration</br>
+     *
+     * @param args command line args
+     */
     public static void parseConfiguration(String args[]) {
         hasDefaultConfig();
 
-        /*
-         *  0 for non param
-         *  1 for short param ( like -v )
-         *  2 for long param  ( like --version )
-         */
         boolean isParamValue = false;
-        String configKey = "";
         String optionName = "";
         String paramName = "";
         for (String param : args) {
@@ -108,6 +118,11 @@ public class Config {
         }
     }
 
+    /**
+     * Property, is Runner must continue execution.
+     *
+     * @return
+     */
     public static boolean isRunnable() {
         return _isRunnable;
     }

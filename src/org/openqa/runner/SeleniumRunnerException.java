@@ -15,6 +15,9 @@
 
 package org.openqa.runner;
 
+/**
+ * Basic class for all exceptions that cause by code of SeleniumRunner
+ */
 public class SeleniumRunnerException extends Exception {
 
 }

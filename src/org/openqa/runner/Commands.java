@@ -23,6 +23,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Map;
 
+/**
+ * Implementation of SeServer commands, with RemoteWebDriver.
+ */
 public class Commands {
 
 

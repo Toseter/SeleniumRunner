@@ -32,15 +32,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Helper that provides parsing of Test,Suites,DataSets,Fixtures.<br/>
+ * For parsing SAX is used.All content handlers can be found in {@link org.openqa.runner.parserHandlers}<br/>
+ * Usually only <b>{@link #parseTestSuite(String) parseTestSuite}</b> invokes from outside of the class.
+ *
+ * @see TestHandler
+ * @see DataSetHandler
+ * @see TestSuiteHandler
+ * @see Test
+ * @see Fixture
+ * @see Suite
+ * @see DataSet
+ */
 public class ParserHelper {
 
     private static SAXParserFactory spf;
 
     /**
-     * Parse Test from file
+     * Parse file from path<br/>
+     * Workflow:
+     * <ol>
+     * <li>Parse test</li>
+     * <li>If test has fixture, parse fixture</li>
+     * <li>If test has dataSets, create clone for each dataSet</li>
+     * </ol>
      *
-     * @param path String
-     * @return Test object
+     * @param path path of the file
+     * @return list of Test
+     * @throws IOException
+     * @throws SAXException
      */
     public static List<Test> parseTest(String path) throws IOException, SAXException {
 
@@ -97,6 +118,20 @@ public class ParserHelper {
         return tests;
     }
 
+    /**
+     * Parse Suite file. <br/>
+     * Workflow:
+     * <ol>
+     * <li>Parse Suite File</li>
+     * <li>Parse tests for this suite</li>
+     * <li>If suite fas fixture, parse fixture</li>
+     * </ol>
+     *
+     * @param path path of the suite
+     * @return Suite with Tests
+     * @throws IOException
+     * @throws SAXException
+     */
     public static Suite parseTestSuite(String path) throws IOException, SAXException {
 
         File testSuiteFile = checkFile(path);
@@ -136,6 +171,15 @@ public class ParserHelper {
         return result;
     }
 
+    /**
+     * Parse dataSet file</br>
+     * Each file can contains several dataSets.
+     *
+     * @param path path to dataSet file
+     * @return List of dataSets
+     * @throws IOException
+     * @throws SAXException
+     */
     public static List<DataSet> parseDataSet(String path) throws IOException, SAXException {
 
         File dataSetFile = checkFile(path);
@@ -158,6 +202,12 @@ public class ParserHelper {
         return result;
     }
 
+    /**
+     * @param path
+     * @return
+     * @throws IOException
+     * @throws SAXException
+     */
     public static Fixture parseFixture(String path) throws IOException, SAXException {
 
         Fixture fixture = null;
@@ -184,6 +234,14 @@ public class ParserHelper {
         return fixture;
     }
 
+    /**
+     * Check file for availability.<br/>
+     * if file available returns file object.
+     *
+     * @param path path to file
+     * @return
+     * @throws IOException
+     */
     private static File checkFile(String path) throws IOException {
         File testFile = new File(path);
 

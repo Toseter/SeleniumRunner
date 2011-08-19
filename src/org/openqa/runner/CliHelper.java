@@ -15,15 +15,24 @@
 
 package org.openqa.runner;
 
-
+/**
+ * CLI Helper<br/>
+ * Contains <b>print</b> methods, for messages like Help message or version message.
+ */
 public class CliHelper {
 
+    /**
+     * Print help message.
+     */
     public static void printHelpMessage() {
         StringBuilder helpMessage = new StringBuilder();
         helpMessage.append("Sample help message");
         System.out.println(helpMessage.toString());
     }
 
+    /**
+     * Print version message.
+     */
     public static void printVersionMessage() {
         StringBuilder versionMessage = new StringBuilder();
         versionMessage.append("Sample version info");

@@ -16,12 +16,27 @@
 package org.openqa.runner;
 
 
+/**
+ * Class that contains constant exit codes.
+ */
 public class ExitCodes {
 
+    /**
+     * No such option in config. Appears when parsing config.
+     */
     public static final int NO_SUCH_OPTION = 1;
+    /**
+     * Option must be numerical. Appears when parsing config
+     */
     public static final int OPTION_MUST_BE_NUM = 2;
+    /**
+     * Param expected. Appears when parsing config.
+     */
     public static final int PARAM_EXPECTED = 3;
 
+    /**
+     * Suite name parameter expected. Appears in parsing config.
+     */
     public static final int SUITE_NAME_EXPECTED = 4;
 
 }

@@ -26,24 +26,27 @@ import org.openqa.selenium.support.ByIdOrName;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+/**
+ * Implements mapping of SeRC commands to {@link Commands} class methods.<br/>
+ * Contains signature of SeRC commands.<br/>
+ * Execute commands using {@link Commands} class.
+ *
+ * @see Commands
+ */
 public class CommandMappings {
 
     private static Map<String, String> _paramMapping;
 
-    public static final int XPATH = 0;
-    public static final int ID = 1;
-    public static final int LINK_TEXT = 2;
-    public static final int CSS = 3;
-    public static final int NAME = 4;
-    public static final int DOM = 5;
-    public static final int IDENTIFIER = 6;
-    public static final int NONE = 999;
 
-    /*
-    *
-    * @TODO Work at exceptions
-    *
-    * */
+    /**
+     * Invokes method from {@link Commands} class.
+     *
+     * @TODO Work at exceptions
+     * @see Commands
+     * @see org.openqa.runner.tests.Executor
+     * @see State
+     * @see org.openqa.runner.tests.Command
+     */
     public static void execute(RemoteWebDriver remoteWebDriver, State state, String commandText, Map<String, String> params) throws NoSuchMethodException {
         Method method = Commands.class.getMethod(commandText, new Class[]{RemoteWebDriver.class, State.class, Map.class});
 
@@ -54,6 +57,14 @@ public class CommandMappings {
         }
     }
 
+    /**
+     * Detect target locator method
+     *
+     * @param target
+     * @return
+     * @see By
+     * @see RemoteWebDriver#findElement(org.openqa.selenium.By)
+     */
     public static By detectTargetMethod(String target) {
         if ((target.startsWith("//")) || (target.startsWith("xpath="))) {
             target = target.replace("xpath=", "");
@@ -87,7 +98,11 @@ public class CommandMappings {
         return new ByIdOrName(target);
     }
 
-
+    /**
+     * Returns param mapping
+     *
+     * @return Param mapping, that represents how command maps with own params
+     */
     public static Map<String, String> getParamMapping() {
 
         if (_paramMapping != null)
