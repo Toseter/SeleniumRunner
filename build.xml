@@ -3,6 +3,7 @@
 
     <!-- set global properties for this build -->
     <property name="src" location="src"/>
+    <property name="javadoc_path" location="javadoc"/>
     <property name="build" location="build"/>
     <property name="build.test" location="build/test"/>
     <property name="dist" location="dist"/>
@@ -81,6 +82,14 @@
         </junit>
     </target>
 
+    <target name="javadoc" description="o Create Javadocs">
+        <mkdir dir="${javadoc_path}/"/>
+        <javadoc
+                destdir="${javadoc_path}/">
+            <fileset dir="${src}/" includes="**/*.java"/>
+        </javadoc>
+    </target>
+
     <target name="dist" depends="compile"
             description="generate the distribution">
         <!-- Create the distribution directory -->
@@ -110,5 +119,6 @@
         <!-- Delete the ${build} and ${dist} directory trees -->
         <delete dir="${build}"/>
         <delete dir="${dist}"/>
+        <delete dir="${javadoc_path}"/>
     </target>
 </project>
