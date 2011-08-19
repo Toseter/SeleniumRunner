@@ -29,6 +29,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class ParserHelper {
      * @param path String
      * @return Test object
      */
-    public static Test parseTest(String path) throws IOException, SAXException {
+    public static List<Test> parseTest(String path) throws IOException, SAXException {
 
         File testFile = checkFile(path);
 
@@ -56,6 +57,7 @@ public class ParserHelper {
         if (spf == null)
             spf = SAXParserFactory.newInstance();
 
+        List<Test> tests = new ArrayList<Test>();
         Test result = new Test();
 
         try {
@@ -78,11 +80,27 @@ public class ParserHelper {
                 result.setAfterTest(afterTest);
             }
 
+            if (handler.getDataSet() != null) {
+                Test clone;
+                List<DataSet> dataSets = parseDataSet(testFile.getParent() + File.separator + handler.getDataSet());
+                for (DataSet dataSet : dataSets) {
+                    try {
+                        clone = (Test) result.clone();
+                        clone.getState().setDataSet(dataSet);
+                        tests.add(clone);
+                    } catch (CloneNotSupportedException ex) {
+                        Logger.getLogger(ParserHelper.class).error("Error when cloning test", ex);
+                    }
+                }
+            } else {
+                tests.add(result);
+            }
+
         } catch (ParserConfigurationException t) {
             Logger.getLogger(ParserHelper.class).error("Error in parsingTest", t);
         }
 
-        return result;
+        return tests;
     }
 
     public static Suite parseTestSuite(String path) throws IOException, SAXException {
@@ -100,11 +118,12 @@ public class ParserHelper {
             SAXParser saxParser = spf.newSAXParser();
             saxParser.parse(testSuiteFile, handler);
             String[] commands = handler.getTests();
-            Test[] tests = new Test[commands.length];
+            List<Test> tests = new ArrayList<Test>();
             for (int i = 0; i < commands.length; i++)
-                tests[i] = parseTest(testSuiteFile.getParent() + File.separator + commands[i]);
+                tests.addAll(parseTest(testSuiteFile.getParent() + File.separator + commands[i]));
 
-            result = new Suite(tests, handler.getTitle());
+
+            result = new Suite(tests.toArray(new Test[tests.size()]), handler.getTitle());
 
             if (handler.getBeforeSuite() != null) {
                 Fixture beforeSuite = parseFixture(testSuiteFile.getParent() + File.separator + handler.getBeforeSuite());

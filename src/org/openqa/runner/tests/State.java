@@ -143,6 +143,10 @@ public class State implements isCloneable {
         return params;
     }
 
+    public void setDataSet(DataSet dataSet) {
+        this.dataSet = dataSet;
+    }
+
     @Override
     public boolean isCloneable() {
         return _isCloneable;
@@ -157,6 +161,7 @@ public class State implements isCloneable {
 
         State clone = new State();
         clone.baseUrl = baseUrl;
+        clone.testName = testName;
         clone.dataSet = (DataSet) dataSet.clone();
         return clone;
     }

@@ -37,6 +37,7 @@ public class TestHandler extends DefaultHandler {
 
     private String beforeTest = null;
     private String afterTest = null;
+    private String dataSet = null;
 
     private String commandText = "";
     private String paramText = "";
@@ -73,6 +74,8 @@ public class TestHandler extends DefaultHandler {
                 beforeTest = href;
             } else if (rel.equals("afterTest")) {
                 afterTest = href;
+            } else if (rel.equals("dataSet")) {
+                dataSet = href;
             }
 
         }
@@ -168,5 +171,9 @@ public class TestHandler extends DefaultHandler {
 
     public String getAfterTest() {
         return afterTest;
+    }
+
+    public String getDataSet() {
+        return dataSet;
     }
 }

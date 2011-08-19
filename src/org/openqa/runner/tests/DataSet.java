@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class DataSet implements Cloneable {
 
     private HashMap<String, String> valueMap;
-    private String name;
+    private String name = "anonymous";
 
     public void setValue(String key, String value) {
         valueMap.put(key, value);

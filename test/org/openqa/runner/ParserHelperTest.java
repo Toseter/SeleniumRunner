@@ -66,7 +66,8 @@ public class ParserHelperTest {
 
     @Test
     public void testParseTest() throws Exception {
-        org.openqa.runner.tests.Test test = ParserHelper.parseTest("testData" + File.separator + "firstTest.t");
+        List<org.openqa.runner.tests.Test> tests = ParserHelper.parseTest("testData" + File.separator + "firstTest.t");
+        org.openqa.runner.tests.Test test = tests.get(0);
         assertTrue(test.hasNextCommand());
         Command command = test.nextCommand();
         assertEquals("open", command.getCommandText());
@@ -89,7 +90,7 @@ public class ParserHelperTest {
     public void testParseTestSuite() throws Exception {
         Suite testSuite = ParserHelper.parseTestSuite("testData" + File.separator + "testSuite.ts");
         org.openqa.runner.tests.Test[] tests = testSuite.getTests();
-        assertEquals(2, tests.length);
+        assertEquals(3, tests.length);
     }
 
     @Test
