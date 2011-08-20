@@ -21,6 +21,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
 
+/**
+ * SAX content handler for Suites
+ *
+ * @see org.openqa.runner.ParserHelper
+ */
 public class TestSuiteHandler extends DefaultHandler {
 
     private boolean isTitle = false;

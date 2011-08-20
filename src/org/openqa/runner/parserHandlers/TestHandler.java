@@ -25,6 +25,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * SAX content handler for Tests and Fixtures
+ *
+ * @see org.openqa.runner.ParserHelper
+ */
 public class TestHandler extends DefaultHandler {
 
     private boolean isTitle;

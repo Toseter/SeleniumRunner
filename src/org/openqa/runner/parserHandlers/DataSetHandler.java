@@ -24,6 +24,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * SAX content handler for DataSets
+ *
+ * @see org.openqa.runner.ParserHelper
+ */
 public class DataSetHandler extends DefaultHandler {
 
     private List<DataSet> dataSets;
