@@ -17,10 +17,21 @@ package org.openqa.runner.resultFormaters;
 
 import org.openqa.runner.tests.SuiteResult;
 
+/**
+ * Abstract Class for all ResultFormaters
+ */
 public abstract class ResultFormater {
 
+    /**
+     * Add Suite to formater
+     *
+     * @param suiteResult
+     */
     public abstract void AddSuiteResult(SuiteResult suiteResult);
 
+    /**
+     * Process output
+     */
     public abstract void Process();
 
 }

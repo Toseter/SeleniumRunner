@@ -17,6 +17,11 @@ package org.openqa.runner.resultFormaters;
 
 import org.openqa.runner.tests.SuiteResult;
 
+/**
+ * HTML result formater.
+ *
+ * @see ResultFormater
+ */
 public class HtmlResultFormater extends ResultFormater {
 
     @Override

@@ -25,6 +25,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Result for CLI.
+ *
+ * @see ResultFormater
+ */
 public class DefaultResultFormater extends ResultFormater {
 
     private List<SuiteResult> _results;
