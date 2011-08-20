@@ -17,9 +17,22 @@ package org.openqa.runner.tests;
 
 import java.util.HashMap;
 
+/**
+ * DataSet uses in {@link State} class.<br/>
+ * Contains map of current variables.
+ *
+ * @see State
+ */
 public class DataSet implements Cloneable {
 
+    /**
+     * Variable map
+     */
     private HashMap<String, String> valueMap;
+
+    /**
+     * Name of dataSet, uses for reporting purposes
+     */
     private String name = "anonymous";
 
     public void setValue(String key, String value) {

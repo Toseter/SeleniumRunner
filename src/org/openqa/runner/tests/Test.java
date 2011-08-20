@@ -17,6 +17,12 @@ package org.openqa.runner.tests;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Represents Test.<br/>
+ * Contains Commands, and Fixtures (both of suite and test)
+ *
+ * @see State,Fixture
+ */
 public class Test implements isCloneable {
 
     private String _baseUrl;

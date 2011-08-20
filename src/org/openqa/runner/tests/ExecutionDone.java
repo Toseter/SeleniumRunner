@@ -17,6 +17,11 @@ package org.openqa.runner.tests;
 
 import java.util.EventObject;
 
+/**
+ * Event Object for execution done in Executor.
+ *
+ * @see Executor
+ */
 public class ExecutionDone extends EventObject {
     private SuiteResult suiteResult;
 

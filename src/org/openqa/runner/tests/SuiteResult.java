@@ -18,6 +18,11 @@ package org.openqa.runner.tests;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Result of Suite execution.<br/>
+ *
+ * @see Suite, org.openqa.runner.resultFormaters.ResultFormater
+ */
 public class SuiteResult {
 
     /* @TODO Think about how write about not failed tests */

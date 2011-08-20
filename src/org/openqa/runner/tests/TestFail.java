@@ -19,6 +19,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Contains information about {@link Test} execution fail.<br/>
+ */
 public class TestFail {
 
     private String testName;

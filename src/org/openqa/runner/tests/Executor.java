@@ -26,12 +26,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Execute Suite objects.<br/>
+ */
 public class Executor extends RemoteWebDriver {
 
-    /*
+    /**
      * Listners for parallel execution
      */
     private List<ExecutionDoneListener> _listeners;
+
+    /**
+     * Result of Suite execution
+     */
     private SuiteResult suiteResult;
 
 

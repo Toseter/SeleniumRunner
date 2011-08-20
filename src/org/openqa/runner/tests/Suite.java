@@ -15,6 +15,13 @@
 
 package org.openqa.runner.tests;
 
+/**
+ * Test Suite.<br/>
+ * Contains Test collection and Suite fixtures.
+ *
+ * @see Test
+ * @see Fixture
+ */
 public class Suite {
 
     private Fixture _beforeSuite = null;

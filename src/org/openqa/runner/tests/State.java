@@ -20,24 +20,43 @@ import org.openqa.runner.Config;
 
 import java.util.*;
 
+/**
+ * Contains State of {@link Test}.<br/>
+ * Process variables, register fails, stack trace.
+ */
 public class State implements isCloneable {
 
-
+    /**
+     * Base url
+     */
     private String baseUrl;
-    private String testName = "anonymous";
 
+    /**
+     * Name of Test , need for reports
+     */
+    private String testName = "anonymous";
 
     private boolean _isCloneable = true;
 
-    /*
-        Don't cause test abortion, for verify
+    /**
+     * Don't cause test abortion, for verify
      */
     private boolean isFailed = false;
+    /**
+     * Fails Test and abort execution
+     */
     private boolean isAborted = false;
+    /**
+     * Current call stack
+     */
     private Queue<Command> callStack;
+
     private int callStackSize;
     private Command lastCommand;
 
+    /**
+     * Test fails
+     */
     private List<TestFail> testFails;
 
 
@@ -46,6 +65,9 @@ public class State implements isCloneable {
     }
 
 
+    /**
+     * Variables
+     */
     private DataSet dataSet;
 
     public State() {
@@ -56,6 +78,9 @@ public class State implements isCloneable {
         callStackSize = (Integer) Config.getConfig().get("state.callStack.size");
     }
 
+    /**
+     * Write fail info into testFails
+     */
     protected void writeFail() {
         TestFail testFail = new TestFail(testName, callStack);
         testFails.add(testFail);
@@ -69,10 +94,17 @@ public class State implements isCloneable {
         this.testName = testName;
     }
 
+    /**
+     * @return List of {@link TestFail}
+     */
     public List<TestFail> getTestFails() {
         return testFails;
     }
 
+    /**
+     * Register fail(verify failed) of {@link Test}<br/>
+     * Don't cause {@link Test} execution abort.
+     */
     public void setFailed() {
         isFailed = true;
         writeFail();
@@ -87,7 +119,11 @@ public class State implements isCloneable {
         return isAborted;
     }
 
-    /* @TODO add exception when adding new command */
+    /**
+     * Abort {@link Test} execution , and register fail.
+     *
+     * @TODO add exception when adding new command
+     */
     public void setAborted() {
         isAborted = true;
         writeFail();

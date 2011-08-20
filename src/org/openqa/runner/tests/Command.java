@@ -17,6 +17,12 @@ package org.openqa.runner.tests;
 
 import java.util.Map;
 
+
+/**
+ * Command class , contains commandText and command params
+ *
+ * @see Test
+ */
 public class Command {
 
     private String commandText;

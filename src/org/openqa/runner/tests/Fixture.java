@@ -15,6 +15,12 @@
 
 package org.openqa.runner.tests;
 
+/**
+ * Fixture, contains collection of {@link Command Commands}.<br/>
+ *
+ * @see Test
+ * @see Suite
+ */
 public class Fixture {
 
     private String _baseUrl;

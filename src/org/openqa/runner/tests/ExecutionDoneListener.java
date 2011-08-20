@@ -15,6 +15,11 @@
 
 package org.openqa.runner.tests;
 
+/**
+ * Listener for ExecutionDone EventObject
+ *
+ * @see Executor,ExecutionDone
+ */
 public interface ExecutionDoneListener {
 
     public void handleExecutionDone(ExecutionDone executionDone);

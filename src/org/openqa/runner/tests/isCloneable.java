@@ -17,7 +17,12 @@ package org.openqa.runner.tests;
 
 
 /**
+ * Uses for deep clone of Test
+ *
  * @TODO refactor clone method, may be to clone factory or cloning constructor
+ * @see Test
+ * @see State
+ * @see DataSet
  */
 public interface isCloneable extends Cloneable {
 
