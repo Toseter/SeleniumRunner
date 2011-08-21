@@ -23,9 +23,11 @@ import org.openqa.runner.tests.Command;
 import org.openqa.runner.tests.Executor;
 import org.openqa.runner.tests.Suite;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -50,18 +52,27 @@ public class CommandsTest {
 
     }
 
+    private WebDriver webDriver;
+
     @Before
     public void setUp() throws MalformedURLException {
         File dataFile = new File("testData" + File.separator + "testMaterial.html");
         path = "file://" + dataFile.getAbsolutePath();
         basePath = "file://" + (new File(dataFile.getParent())).getAbsolutePath() + "/";
         executor = new Executor(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.firefox());
-        executor.get(this.path);
+        try {
+            Field webDriverField = executor.getClass().getDeclaredField("webDriver");
+            webDriverField.setAccessible(true);
+            webDriver = (WebDriver) webDriverField.get(executor);
+        } catch (Exception ex) {
+            System.err.println(ex.toString());
+        }
+        webDriver.get(this.path);
     }
 
     @After
     public void tearDown() {
-        executor.close();
+        webDriver.quit();
     }
 
     @Test
@@ -72,7 +83,7 @@ public class CommandsTest {
         test.addCommand(new Command("open", params));
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
         executor.execute(suite);
-        assertEquals("testMaterial2", executor.getTitle());
+        assertEquals("testMaterial2", webDriver.getTitle());
     }
 
     @Test
@@ -84,7 +95,7 @@ public class CommandsTest {
         test.setBaseUrl(basePath);
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
         executor.execute(suite);
-        assertEquals("testMaterial2", executor.getTitle());
+        assertEquals("testMaterial2", webDriver.getTitle());
     }
 
     @Test
@@ -95,7 +106,7 @@ public class CommandsTest {
         test.addCommand(new Command("click", params));
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
         executor.execute(suite);
-        assertEquals("testMaterial2", executor.getTitle());
+        assertEquals("testMaterial2", webDriver.getTitle());
     }
 
     @Test
@@ -107,7 +118,7 @@ public class CommandsTest {
         test.addCommand(new Command("type", params));
         Suite suite = new Suite(new org.openqa.runner.tests.Test[]{test});
         executor.execute(suite);
-        assertEquals("something", executor.findElement(By.name("testType")).getAttribute("value"));
+        assertEquals("something", webDriver.findElement(By.name("testType")).getAttribute("value"));
     }
 
     @Test

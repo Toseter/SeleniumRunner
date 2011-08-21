@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableMap;
 import org.apache.log4j.Logger;
 import org.openqa.runner.tests.State;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ByDOM;
 import org.openqa.selenium.support.ByIdOrName;
@@ -47,11 +48,11 @@ public class CommandMappings {
      * @see State
      * @see org.openqa.runner.tests.Command
      */
-    public static void execute(RemoteWebDriver remoteWebDriver, State state, String commandText, Map<String, String> params) throws NoSuchMethodException {
-        Method method = Commands.class.getMethod(commandText, new Class[]{RemoteWebDriver.class, State.class, Map.class});
+    public static void execute(WebDriver webDriver, State state, String commandText, Map<String, String> params) throws NoSuchMethodException {
+        Method method = Commands.class.getMethod(commandText, new Class[]{WebDriver.class, State.class, Map.class});
 
         try {
-            method.invoke(null, new Object[]{remoteWebDriver, state, params});
+            method.invoke(null, new Object[]{webDriver, state, params});
         } catch (Exception ex) {
             Logger.getLogger(CommandMappings.class).error("Error when invoke method", ex);
         }

@@ -62,7 +62,6 @@ public class SeleniumRunner {
             Suite suite = ParserHelper.parseTestSuite(tsPath);
             Executor executor = new Executor(new URL((String) config.get("executor.rc_url")), DesiredCapabilities.firefox());
             SuiteResult suiteResult = executor.execute(suite);
-            executor.close();
             DefaultResultFormater defaultResultFormater = new DefaultResultFormater();
             defaultResultFormater.AddSuiteResult(suiteResult);
             defaultResultFormater.Process();
