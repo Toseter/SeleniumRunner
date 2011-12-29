@@ -18,6 +18,7 @@ package org.openqa.runner.tests;
 import org.apache.log4j.Logger;
 import org.openqa.runner.CommandMappings;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 /**
  * Execute Suite objects.<br/>
  */
-public class Executor extends RemoteWebDriver {
+public class Executor {
 
     /**
      * Listners for parallel execution
@@ -41,14 +42,16 @@ public class Executor extends RemoteWebDriver {
      */
     private SuiteResult suiteResult;
 
+    private WebDriver webDriver;
+
 
     public Executor(CommandExecutor commandExecutor, Capabilities desiredCapabilities) {
-        super(commandExecutor, desiredCapabilities);
+        webDriver = new RemoteWebDriver(commandExecutor, desiredCapabilities);
         _listeners = new LinkedList<ExecutionDoneListener>();
     }
 
     public Executor(URL url, Capabilities desiredCapabilities) {
-        super(url, desiredCapabilities);
+        webDriver = new RemoteWebDriver(url, desiredCapabilities);
         _listeners = new LinkedList<ExecutionDoneListener>();
     }
 
@@ -82,7 +85,7 @@ public class Executor extends RemoteWebDriver {
                 Map<String, String> params = state.processParams(command.getParams());
                 state.setLastCommand(command);
                 try {
-                    CommandMappings.execute(this, state, commandText, params);
+                    CommandMappings.execute(webDriver, state, commandText, params);
                 } catch (NoSuchMethodException ex) {
                     Logger.getLogger(Executor.class).error("Fail execute command :" + commandText, ex);
                 }
@@ -95,6 +98,8 @@ public class Executor extends RemoteWebDriver {
         suiteResult = new SuiteResult(testSuite);
         fireExecutionDone();
 
+        /* @TODO temp, need to rewrite tests */
+//        webDriver.quit();
         return suiteResult;
     }
 

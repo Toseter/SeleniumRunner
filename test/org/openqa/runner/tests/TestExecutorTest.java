@@ -20,8 +20,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +39,16 @@ public class TestExecutorTest {
     }
 
     private Executor _testExecutor;
+    private WebDriver webDriver;
 
     @Before
     public void setUp() {
         Capabilities desiredCapabilities = DesiredCapabilities.firefox();
         try {
             _testExecutor = new Executor(new URL("http://localhost:4444/wd/hub"), desiredCapabilities);
+            Field webDriverField = _testExecutor.getClass().getDeclaredField("webDriver");
+            webDriverField.setAccessible(true);
+            webDriver = (WebDriver) webDriverField.get(_testExecutor);
         } catch (Exception ex) {
             System.err.print("Some error");
         }
@@ -50,7 +56,7 @@ public class TestExecutorTest {
 
     @After
     public void tearDown() {
-        _testExecutor.close();
+        webDriver.quit();
     }
 
     @Test

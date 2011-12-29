@@ -17,14 +17,14 @@ package org.openqa.runner;
 
 import org.openqa.runner.tests.State;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Map;
 
 /**
- * Implementation of SeServer commands, with RemoteWebDriver.
+ * Implementation of SeServer commands, with WebDriver.
  */
 public class Commands {
 
@@ -32,7 +32,7 @@ public class Commands {
     /*
      * @TODO add changing State.BaseUrl
      */
-    public static void open(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void open(WebDriver webDriver, State state, Map<String, String> params) {
         String url = params.get("url");
         if (checkIsRelativeUrl(url)) {
 
@@ -42,7 +42,7 @@ public class Commands {
 
             url = base.concat(url);
         }
-        remoteWebDriver.get(url);
+        webDriver.get(url);
     }
 
     /**
@@ -59,44 +59,44 @@ public class Commands {
 
 
     /* Basic methods */
-    public static void click(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).click();
+    public static void click(WebDriver webDriver, State state, Map<String, String> params) {
+        webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).click();
     }
 
-    public static void type(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).sendKeys(params.get("text"));
+    public static void type(WebDriver webDriver, State state, Map<String, String> params) {
+        webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).sendKeys(params.get("text"));
     }
 
 
     /* Assert methods */
 
-    public static void assertText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String targetText = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
+    public static void assertText(WebDriver webDriver, State state, Map<String, String> params) {
+        String targetText = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
         if (!targetText.equals(params.get("text")))
             state.setAborted();
     }
 
-    public static void assertTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String allText = remoteWebDriver.findElementByTagName("body").getText();
+    public static void assertTextPresent(WebDriver webDriver, State state, Map<String, String> params) {
+        String allText = webDriver.findElement(By.tagName("body")).getText();
         if (!allText.contains(params.get("text")))
             state.setAborted();
     }
 
-    public static void assertTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String title = remoteWebDriver.getTitle();
+    public static void assertTitle(WebDriver webDriver, State state, Map<String, String> params) {
+        String title = webDriver.getTitle();
         if (!title.equals(params.get("value")))
             state.setAborted();
     }
 
-    public static void assertValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
+    public static void assertValue(WebDriver webDriver, State state, Map<String, String> params) {
+        String value = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
         if (!value.equals(params.get("value")))
             state.setAborted();
     }
 
-    public static void assertTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void assertTable(WebDriver webDriver, State state, Map<String, String> params) {
         String[] path = params.get("target").split("\\.");
-        WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(path[0])).
+        WebElement webElement = webDriver.findElement(CommandMappings.detectTargetMethod(path[0])).
                 findElements(By.tagName("tr")).get(Integer.parseInt(path[1])).
                 findElements(By.tagName("td")).get(Integer.parseInt(path[2]));
         String text = webElement.getText();
@@ -104,9 +104,9 @@ public class Commands {
             state.setAborted();
     }
 
-    public static void assertElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void assertElementPresent(WebDriver webDriver, State state, Map<String, String> params) {
         try {
-            WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
+            WebElement webElement = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
         } catch (org.openqa.selenium.NoSuchElementException ex) {
             state.setAborted();
         }
@@ -114,33 +114,33 @@ public class Commands {
 
     /* Verify Methods */
 
-    public static void verifyText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String targetText = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
+    public static void verifyText(WebDriver webDriver, State state, Map<String, String> params) {
+        String targetText = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
         if (!targetText.equals(params.get("text")))
             state.setFailed();
     }
 
-    public static void verifyTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String allText = remoteWebDriver.findElementByTagName("body").getText();
+    public static void verifyTextPresent(WebDriver webDriver, State state, Map<String, String> params) {
+        String allText = webDriver.findElement(By.tagName("body")).getText();
         if (!allText.contains(params.get("text")))
             state.setFailed();
     }
 
-    public static void verifyTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String title = remoteWebDriver.getTitle();
+    public static void verifyTitle(WebDriver webDriver, State state, Map<String, String> params) {
+        String title = webDriver.getTitle();
         if (!title.equals(params.get("value")))
             state.setFailed();
     }
 
-    public static void verifyValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
+    public static void verifyValue(WebDriver webDriver, State state, Map<String, String> params) {
+        String value = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
         if (!value.equals(params.get("value")))
             state.setFailed();
     }
 
-    public static void verifyTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void verifyTable(WebDriver webDriver, State state, Map<String, String> params) {
         String[] path = params.get("target").split("\\.");
-        WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(path[0])).
+        WebElement webElement = webDriver.findElement(CommandMappings.detectTargetMethod(path[0])).
                 findElements(By.tagName("tr")).get(Integer.parseInt(path[1])).
                 findElements(By.tagName("td")).get(Integer.parseInt(path[2]));
         String text = webElement.getText();
@@ -148,63 +148,63 @@ public class Commands {
             state.setFailed();
     }
 
-    public static void verifyElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void verifyElementPresent(WebDriver webDriver, State state, Map<String, String> params) {
         try {
-            WebElement webElement = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
+            WebElement webElement = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target")));
         } catch (org.openqa.selenium.NoSuchElementException ex) {
             state.setFailed();
         }
     }
 
     /* WaitFor Methods  */
-    public static void waitForText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void waitForText(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
-    public static void waitForTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void waitForTextPresent(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
-    public static void waitForTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void waitForTitle(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
-    public static void waitForValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void waitForValue(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
-    public static void waitForTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void waitForTable(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
-    public static void waitForElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void waitForElementPresent(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
     /* Store Methods  */
-    public static void storeText(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
+    public static void storeText(WebDriver webDriver, State state, Map<String, String> params) {
+        String value = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getText();
         state.setVariable(params.get("text"), value);
     }
 
-    public static void storeTextPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void storeTextPresent(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
-    public static void storeTitle(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        state.setVariable(params.get("title"), remoteWebDriver.getTitle());
+    public static void storeTitle(WebDriver webDriver, State state, Map<String, String> params) {
+        state.setVariable(params.get("title"), webDriver.getTitle());
     }
 
-    public static void storeValue(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
-        String value = remoteWebDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
+    public static void storeValue(WebDriver webDriver, State state, Map<String, String> params) {
+        String value = webDriver.findElement(CommandMappings.detectTargetMethod(params.get("target"))).getAttribute("value");
         state.setVariable(params.get("value"), value);
     }
 
-    public static void storeTable(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void storeTable(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 
-    public static void storeElementPresent(RemoteWebDriver remoteWebDriver, State state, Map<String, String> params) {
+    public static void storeElementPresent(WebDriver webDriver, State state, Map<String, String> params) {
         throw new NotImplementedException();
     }
 }
