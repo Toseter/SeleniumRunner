@@ -98,7 +98,8 @@ public class Executor {
         suiteResult = new SuiteResult(testSuite);
         fireExecutionDone();
 
-        webDriver.quit();
+        /* @TODO temp, need to rewrite tests */
+//        webDriver.quit();
         return suiteResult;
     }
 
