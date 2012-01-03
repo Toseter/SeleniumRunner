@@ -13,22 +13,24 @@
  *    limitations under the License.
  */
 
-package org.openqa.runner.tests;
-
-import com.google.common.collect.ImmutableMap;
-
-import static org.junit.Assert.*;
+package org.openqa.runner.resultFormaters;
 
 import junit.framework.JUnit4TestAdapter;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.After;
-import org.openqa.runner.resultFormaters.DefaultResultFormater;
+import org.openqa.runner.tests.Command;
+import org.openqa.runner.tests.Suite;
+import org.openqa.runner.tests.SuiteResult;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
@@ -69,7 +71,7 @@ public class DefaultResultFormaterTest {
     }
 
     @Test
-    public void testSomething() throws FileNotFoundException,UnsupportedEncodingException {
+    public void testSomething() throws FileNotFoundException, UnsupportedEncodingException {
         DefaultResultFormater defaultResultFormater = new DefaultResultFormater();
         defaultResultFormater.AddSuiteResult(suiteResult);
 
