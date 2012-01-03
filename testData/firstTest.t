@@ -38,6 +38,7 @@
     </tr>
     <tr>
         <td>assertTextPresent</td>
+        <!-- Space before Begin for test TestHandlerTest -->
         <td> Begin: write and run tests in Firefox</td>
         <td></td>
     </tr>
