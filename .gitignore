@@ -1,7 +1,15 @@
+#Temp files
+*~
+.*~
+
+#IDE files
 .idea/
 *.iml
+
+#Build dirs
 build
 dist
 out/
 logs/
 javadoc/
+target/
