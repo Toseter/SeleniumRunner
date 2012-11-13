@@ -10,8 +10,8 @@
     <artifactId>selenium-runner-gui</artifactId>
     <packaging>jar</packaging>
 
-    <name>selenium-runner-gui</name>
-    <url>http://maven.apache.org</url>
+    <name>Selenium Runner Gui</name>
+    <url>https://github.com/Toseter/SeleniumRunner</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
