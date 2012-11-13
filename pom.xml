@@ -13,6 +13,7 @@
 
     <modules>
         <module>selenium-runner-core</module>
+        <module>selenium-runner-gui</module>
     </modules>
 
 </project>
