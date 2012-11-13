@@ -19,22 +19,26 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.runner.parserHandlers.TestSuiteHandler;
+import org.openqa.runner.parserHandlers.DataSetHandler;
+import org.openqa.runner.tests.DataSet;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
+import java.net.URL;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 
-public class TestSuiteHandlerTest {
+public class DataSetHandlerTest {
     public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(TestSuiteHandlerTest.class);
+        return new JUnit4TestAdapter(DataSetHandlerTest.class);
     }
 
     @Before
     public void setUp() {
+
     }
 
     @After
@@ -44,26 +48,25 @@ public class TestSuiteHandlerTest {
     @Test
     public void testHandle() throws Exception {
 
-        final String testFile = "testData" + File.separator + "testSuite.ts";
+        URL fileToTestMaterial =  this.getClass().getClassLoader().getResource("dataSet.ds");
+        final String testFile = fileToTestMaterial.getFile();
+        final int dataSetsCount = 2;
+
 
         SAXParserFactory spf = SAXParserFactory.newInstance();
 
-        TestSuiteHandler handler = new TestSuiteHandler();
+        DataSetHandler handler = new DataSetHandler();
 
         SAXParser saxParser = spf.newSAXParser();
         saxParser.parse(testFile, handler);
 
+        List<DataSet> dataSets = handler.getDataSets();
 
-        String[] tests = handler.getTests();
+        assertEquals(dataSetsCount, dataSets.size());
 
-        assertEquals(2, tests.length);
-        assertEquals("firstTest.t", tests[0]);
-        assertEquals("secondTest.t", tests[1]);
+        DataSet dataSet = dataSets.get(0);
 
-        assertEquals("fixture.f", handler.getBeforeSuite());
-        assertEquals("fixture.f", handler.getAfterSuite());
-
-        assertEquals("Test Suite", handler.getTitle());
-
+        assertEquals("some value", dataSet.getValue("name"));
+        assertEquals("some value", dataSet.getValue("other_name"));
     }
 }

@@ -27,6 +27,8 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +41,14 @@ public class ParserHelperTest {
         return new JUnit4TestAdapter(ParserHelperTest.class);
     }
 
+    String basePath = "";
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws IOException, URISyntaxException {
+
+        URL fileToTestMaterial =  this.getClass().getClassLoader().getResource("firstTest.t");
+        File testFile = new File(fileToTestMaterial.toURI());
+        basePath = (new File(testFile.getParent())).getAbsolutePath();
 
     }
 
@@ -66,7 +73,7 @@ public class ParserHelperTest {
 
     @Test
     public void testParseTest() throws Exception {
-        List<org.openqa.runner.tests.Test> tests = ParserHelper.parseTest("testData" + File.separator + "firstTest.t");
+        List<org.openqa.runner.tests.Test> tests = ParserHelper.parseTest(basePath + File.separator + "firstTest.t");
         org.openqa.runner.tests.Test test = tests.get(0);
         assertTrue(test.hasNextCommand());
         Command command = test.nextCommand();
@@ -88,14 +95,14 @@ public class ParserHelperTest {
 
     @Test
     public void testParseTestSuite() throws Exception {
-        Suite testSuite = ParserHelper.parseTestSuite("testData" + File.separator + "testSuite.ts");
+        Suite testSuite = ParserHelper.parseTestSuite(basePath + File.separator + "testSuite.ts");
         org.openqa.runner.tests.Test[] tests = testSuite.getTests();
         assertEquals(3, tests.length);
     }
 
     @Test
     public void testParseFixture() throws Exception {
-        Fixture fixture = ParserHelper.parseFixture("testData" + File.separator + "fixture.f");
+        Fixture fixture = ParserHelper.parseFixture(basePath + File.separator + "fixture.f");
         Command[] commands = fixture.getCommands();
         assertEquals(3, commands.length);
         assertEquals("open", commands[0].getCommandText());
@@ -105,7 +112,7 @@ public class ParserHelperTest {
 
     @Test
     public void testParseData() throws Exception {
-        List<DataSet> dataSets = ParserHelper.parseDataSet("testData" + File.separator + "dataSet.ds");
+        List<DataSet> dataSets = ParserHelper.parseDataSet(basePath + File.separator + "dataSet.ds");
 
         assertEquals(2, dataSets.size());
 

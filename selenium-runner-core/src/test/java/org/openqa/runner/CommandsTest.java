@@ -55,8 +55,9 @@ public class CommandsTest {
     private WebDriver webDriver;
 
     @Before
-    public void setUp() throws MalformedURLException {
-        File dataFile = new File("testData" + File.separator + "testMaterial.html");
+    public void setUp() throws Exception {
+        URL fileToTestMaterial =  this.getClass().getClassLoader().getResource("testMaterial.html");
+        File dataFile = new File(fileToTestMaterial.toURI());
         path = "file://" + dataFile.getAbsolutePath();
         basePath = "file://" + (new File(dataFile.getParent())).getAbsolutePath() + "/";
         executor = new Executor(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.firefox());
