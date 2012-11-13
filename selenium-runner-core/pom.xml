@@ -2,12 +2,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>seleniumRunner</groupId>
-    <artifactId>seleniumRunner</artifactId>
-    <version>1.0</version>
+    <parent>
+        <groupId>org.openqa.selenium.runner</groupId>
+        <artifactId>runner-core</artifactId>
+        <version>0.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <groupId>org.openqa.selenium.runner</groupId>
+    <artifactId>runner-core</artifactId>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
-    <name>SeleniumRunner</name>
+    <name>Selenium Runner core</name>
     <url>https://github.com/Toseter/SeleniumRunner</url>
 
     <properties>
