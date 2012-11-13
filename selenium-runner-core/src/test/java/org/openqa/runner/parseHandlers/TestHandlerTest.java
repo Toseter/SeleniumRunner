@@ -25,6 +25,7 @@ import org.openqa.runner.tests.Command;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
+import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,7 +46,8 @@ public class TestHandlerTest {
     @Test
     public void testHandle() throws Exception {
 
-        final String testFile = "testData" + File.separator + "firstTest.t";
+        URL fileToTestMaterial =  this.getClass().getClassLoader().getResource("firstTest.t");
+        final String testFile = fileToTestMaterial.getFile();
 
         SAXParserFactory spf = SAXParserFactory.newInstance();
 

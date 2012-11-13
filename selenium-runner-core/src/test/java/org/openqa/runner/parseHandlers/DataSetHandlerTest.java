@@ -25,6 +25,7 @@ import org.openqa.runner.tests.DataSet;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -47,7 +48,8 @@ public class DataSetHandlerTest {
     @Test
     public void testHandle() throws Exception {
 
-        final String testFile = "testData" + File.separator + "dataSet.ds";
+        URL fileToTestMaterial =  this.getClass().getClassLoader().getResource("dataSet.ds");
+        final String testFile = fileToTestMaterial.getFile();
         final int dataSetsCount = 2;
 
 
